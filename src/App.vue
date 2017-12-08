@@ -1,6 +1,6 @@
 <template>
-  <div>
-      <section class="el-container is-vertical" >
+  
+      <section class="el-container is-vertical" ref="wrapper">
           <navbar :navs="navs"></navbar>
           <section class="el-container vertical-middle" >
               <sidebar></sidebar>
@@ -13,7 +13,7 @@
           <al-footer></al-footer>
           
       </section>
-  </div>
+  
   
 </template>
 
@@ -31,7 +31,11 @@ Vue.use(ElementUI);
 export default {
   name: 'app',
   props: ['navs'],
-  
+  mounted(){
+      // 设置容器高度，撑满屏幕
+      const clientHeight = window.innerHeight || document.body.clientHeight || (document.documentElement && document.documentElement.clientHeight);
+      this.$refs.wrapper.style['minHeight'] = `${clientHeight}px`;
+  },
   components:{navbar, sidebar, container, alFooter}
   
 }
