@@ -1,25 +1,30 @@
 <template>
 	<footer>
-		<p> Copyright © 2014-2017 </p>
-		<p> 邮箱：18912341234@189.cn </p>
-		<p>中国电信股份有限公司IT中心研发</p>
+		<p>中国电信IT研发中心承建</p>
+		<p> Copyright © 2014-{{thisYear}} </p>
 	</footer>
 </template>
 <script>
 	export default {
-		name: 'AlFooter'
+		name: 'AlFooter',
+		computed: {
+			thisYear(){
+				return new Date().getFullYear();
+			}
+		}
 	}
 </script>
 <style scoped lang="scss">
 	footer{
-		
-		display: flex;
+		padding: 3px 0;
 		width: 100%;
+		display: flex;
 		flex-direction: column;
 		background-color: #e5e9f2;	
 		p{
 			margin: 0 auto;
-
+			color: #666;
+			font-size: 12px;
 		}
 	}
 </style>

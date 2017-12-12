@@ -1,7 +1,7 @@
 <template>
   <div  style="width: 100%;">
     
-    
+  
     <div>1</div>
     <div>1</div>
     <div>1</div>
@@ -9,97 +9,57 @@
     <div>1</div>
     <div>1</div>
     <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    <div>1</div>
-    
+    <first-child></first-child>
+    <last-child></last-child>
+
   </div>  
 </template>
 
 <script>
+import http from '@/api';
+
     export default {
-        name: 'HelloWorld'
+        name: 'HelloWorld',
+        mounted(){
+
+            this.getData();
+        },
+        components:{
+          'first-child': {
+              name: 'first-child',
+              template: '<div><button @click="send()">send</button></div>',
+              methods: {
+                  send(){
+                      this.$bus.$emit('__msg', 'msg com from first-child')
+                  }
+              }
+          },
+          'last-child': {
+              name: 'last-child',
+              template: '<div>second -child</div>',
+              mounted(){
+                  this.$bus.$on('__msg', function(data){
+                      console.log('last-child: I got msg ,data: ', data);
+                  })
+              }
+          },
+        },
+        methods: {
+            getData(){
+              http.actions.cluster.list({
+                clusterId: 'at2', 
+                token: 'jKhum9rBRkiZAVEYdtHJVIliDILBZ8nCRhP7201XL7U%3D',
+                userId: 'duanyy'
+              });
+              
+              
+            }
+        }
     }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.el-row {
-    margin-bottom: 20px;
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-  .el-col {
-    border-radius: 4px;
-  }
-  .bg-purple-dark {
-    background: #99a9bf;
-  }
-  .bg-purple {
-    background: #d3dce6;
-  }
-  .bg-purple-light {
-    background: #e5e9f2;
-  }
-  .grid-content {
-    border-radius: 4px;
-    min-height: 36px;
-  }
-  .row-bg {
-    padding: 10px 0;
-    background-color: #f9fafc;
-  }
-    
+
 
 </style>

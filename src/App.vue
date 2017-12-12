@@ -27,6 +27,7 @@ import container from '@/components/container';
 import alFooter from '@/components/al-footer';
 
 
+
 Vue.use(ElementUI);
 export default {
   name: 'app',

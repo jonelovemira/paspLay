@@ -3,11 +3,15 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
-import navs from '@/assets/topbar.json';
+import {$http} from '@/api'
+import $bus from '@/api/bus'
+import navs from '@/config/topbar.json';
 
 Vue.config.productionTip = false
 
 
+Vue.use($http);
+Vue.use($bus);
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
