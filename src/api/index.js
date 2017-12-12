@@ -1,3 +1,13 @@
+/**
+ * @date        2017-12-12 12:59:29
+ * @authors     liuqiao (liu_qiao@chinatelecom.cn)
+ * @outline     封装axios操作
+ * @description 1定义默认axios配置
+ *              2增加响应返回拦截器，对于失败返回增加处理
+ *              3依据config/index.js 中SERVICE对象，自动生成数据请求函数
+ *              5提供插件形式，通过this.$http即可获取
+ *              6提供export暴露出去http服务
+ */
 import Vue from 'vue';
 import axios from 'axios';
 import CONSTANTS from '@/config';

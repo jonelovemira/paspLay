@@ -1,7 +1,7 @@
 <template>
 	<div class="sidebar">
 			<ul>
-				<li><a class="active" href="javascript:;"><i class="el-icon-edit"></i><span>首页</span></a></li>
+				<li><a class="active" href="#/hello"><i class="el-icon-edit"></i><span>首页</span></a></li>
 				<li><router-link to="/order"><i class="el-icon-share"></i><span>评论</span></router-link></li>
 				<li><a href="#/order"><i class="el-icon-delete"></i><span>消息</span></a></li>
 				<li><a href="javascript:;"><i class="el-icon-info"></i><span></span>企业</a></li>

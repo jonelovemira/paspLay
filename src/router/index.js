@@ -14,6 +14,11 @@ export default new Router({
       component: HelloWorld
     },
     {
+    	path: '/hello',
+    	name: 'hello',
+    	component: HelloWorld
+    },
+    {
     	path: '/order',
     	name: 'order',
     	component: order

@@ -21,7 +21,6 @@ import http from '@/api';
     export default {
         name: 'HelloWorld',
         mounted(){
-
             this.getData();
         },
         components:{
