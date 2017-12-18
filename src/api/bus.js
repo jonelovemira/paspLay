@@ -10,9 +10,10 @@ const bus = new Vue({
 					name: '__$bus'
 				});
 
+export {bus};
 export default {
 	install(Vue){
-		Object.defineProperty(Vue.prototype, '$bus', {
+		Object.defineProperty(Vue.prototype, '_$bus', {
 			get(){
 				return bus;
 			}

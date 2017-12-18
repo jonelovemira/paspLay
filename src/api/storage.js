@@ -14,10 +14,11 @@ import {STORAGE_KEY, STORAGE_TYPE} from '@/config';
 
 
 class Storage{
-	
-	constructor(type = 'local'){
-		this.storage = window[type == 'local' ? 'localStorage' : 'sessionStorage'];
+	constructor({key = STORAGE_KEY, type = STORAGE_TYPE}){
+		// 储存key，默认__$aep
+		this.key = key;
 		this.parser = window.JSON;
+		this.storage = window[type == 'local' ? 'localStorage' : 'sessionStorage'];
 	}
 	
 	
@@ -29,7 +30,7 @@ class Storage{
 			return;
 		}
 		data[key] = {value, expires: Date.now() + expires * 60 * 1000}; 
-		this.parser.stringify(data);
+		this.setData(data);
 	}
 	
 	get(key = ''){
@@ -42,6 +43,7 @@ class Storage{
 		// 过期
 		if(this.isExipired(data.expires)){
 			delete allData[key];
+			this.setData(allData);
 			return '';
 		}
 		return data.value;
@@ -58,6 +60,7 @@ class Storage{
 			return '';
 		}
 		delete allData[key];
+		this.setData(allData);
 		return data.value;
 	}
 	//TODO：这里也要有过期代码检查
@@ -68,16 +71,21 @@ class Storage{
 
 	remove(key){
 		if(!key){
-			this.storage.removeItem(STORAGE_KEY);
+			this.storage.removeItem(this.key);
 			return;
 		}
 		const data = this.getData();
 		delete data[key];
+		this.setData(data);
 	}
 
 	// 获取总数据
 	getData(){
-		return this.parser.parse(this.storage.getItem(STORAGE_KEY)) || {} ;
+		return this.parser.parse(this.storage.getItem(this.key)) || {} ;
+	}
+	// 设置总数据
+	setData(data = {}){
+		this.storage.setItem(this.key, this.parser.stringify(data)) ;
 	}
 
 	//是否过期
@@ -86,5 +94,9 @@ class Storage{
 	}
 
 }
-export {Storage};
-export default new Storage(STORAGE_TYPE);
+
+export default {
+	install(Vue, opts = {}){
+		Vue.prototype._$storage = new Storage(opts);
+	}
+};

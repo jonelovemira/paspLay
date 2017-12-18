@@ -26,8 +26,26 @@ const toCamelCase = (str, seperator = '_') => {
 	str = str.replace(reg, (_, p1) => p1.toUpperCase())
 	return str[0].toLowerCase() + str.slice(1);
 }
+
+//数字转化为千分位 1234 => 1,234
+const toThousands = (num) => {
+	num = Number(num);
+	if(isNaN(num)){
+		return '';
+	}
+	num = '' + num;
+	let numArr = num.split('.');
+	num = numArr[0];
+	// 4321
+	num = num.split('').reverse().join('');
+	// 432,1
+	num = num.replace(/(\d{3})/g, (_, p) => p + ',');
+	//1,234
+	return num.split('').reverse().join('') + (numArr[1] ? '.' + numArr[1]  : '');
+}
 export default {
 	warn_svr,
 	replaceHomeEnd,
-	toCamelCase
+	toCamelCase,
+	toThousands
 }

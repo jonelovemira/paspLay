@@ -2,13 +2,13 @@
   <div  style="width: 100%;">
     
   
+    
     <div>1</div>
     <div>1</div>
     <div>1</div>
     <div>1</div>
     <div>1</div>
-    <div>1</div>
-    <div>1</div>
+
     <first-child></first-child>
     <last-child></last-child>
 
@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import http from '@/api';
 
     export default {
         name: 'HelloWorld',
@@ -29,7 +28,7 @@ import http from '@/api';
               template: '<div><button @click="send()">send</button></div>',
               methods: {
                   send(){
-                      this.$bus.$emit('__msg', 'msg com from first-child')
+                      this._$bus.$emit('__msg', 'msg com from first-child')
                   }
               }
           },
@@ -37,7 +36,7 @@ import http from '@/api';
               name: 'last-child',
               template: '<div>second -child</div>',
               mounted(){
-                  this.$bus.$on('__msg', function(data){
+                  this._$bus.$on('__msg', function(data){
                       console.log('last-child: I got msg ,data: ', data);
                   })
               }
@@ -45,7 +44,8 @@ import http from '@/api';
         },
         methods: {
             getData(){
-              http.actions.cluster.list({
+
+              this._$http.cluster.list({
                 clusterId: 'at2', 
                 token: 'jKhum9rBRkiZAVEYdtHJVIliDILBZ8nCRhP7201XL7U%3D',
                 userId: 'duanyy'

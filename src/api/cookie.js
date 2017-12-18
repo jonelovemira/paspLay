@@ -22,11 +22,15 @@ const cookie = {
 	has(name){
 		const reg = new RegExp('(^| )('+ name +')(?:=[^;]*)?(;|$)');
 		const result = document.cookie.match(reg);
-		return !!(result && result[1]);
+		return !!(result && result[2]);
 	},
 	// 删除某个cookie
 	remove(name){
 		this.set(name, '', -1);
+	},
+
+	install(Vue, opts){
+		Vue.prototype._$cookie = this;
 	}
 }
 
