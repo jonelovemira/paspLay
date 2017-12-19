@@ -40,15 +40,12 @@ class Common{
 		Vue.use(Router);
 		
 		//配置路由
-		console.log('keys()', opts.router.keys())
 		const routes = [];
 		opts.router.keys().map(key => {
-			console.log( key , opts.router(key))
 			// 每个router.js的路由配置对象
 			const routeModule = opts.router(key).default;
 			Array.isArray(routeModule) ? routes.push.apply(routes, routeModule): routes.push(routeModule);
 		});
-		console.log('routes: ', routes);
 		this._router = new Router({routes});
 
 
