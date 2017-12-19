@@ -1,7 +1,7 @@
-import order from './order';
+import order from './index';
 
 export default {
-  path: '/order',
   name: 'order',
+  path: '/order',
   component: order
 }

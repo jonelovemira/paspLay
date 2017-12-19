@@ -8,14 +8,21 @@
     <div>1</div>
     <div>1</div>
     <div>1</div>
+    <div>
+      <router-link :to="{name: 'cluster'}">我要去cluster</router-link> <br>
+      <router-link :to="{name: 'datacenter'}">我要去datacenter</router-link> <br>
+      <router-link :to="{name: 'log'}">我要去log</router-link> <br>
+    </div>
 
     <first-child></first-child>
-    <last-child></last-child>
+    <second-child></second-child>
 
   </div>  
 </template>
 
 <script>
+    import FirstChild from './FirstChild';
+    import SecondChild from './SecondChild';
 
     export default {
         name: 'HelloWorld',
@@ -23,24 +30,8 @@
             this.getData();
         },
         components:{
-          'first-child': {
-              name: 'first-child',
-              template: '<div><button @click="send()">send</button></div>',
-              methods: {
-                  send(){
-                      this._$bus.$emit('__msg', 'msg com from first-child')
-                  }
-              }
-          },
-          'last-child': {
-              name: 'last-child',
-              template: '<div>second -child</div>',
-              mounted(){
-                  this._$bus.$on('__msg', function(data){
-                      console.log('last-child: I got msg ,data: ', data);
-                  })
-              }
-          },
+          FirstChild,
+          SecondChild
         },
         methods: {
             getData(){
