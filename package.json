@@ -1,6 +1,6 @@
 {
   "name": "alogic-vue-common",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "AEP公共模块",
   "author": "liuqiao <liuqiao@189.cn>",
   "main": "src/main.js",
