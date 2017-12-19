@@ -21,10 +21,10 @@
 import Vue from 'vue';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-import navbar from '@/components/navbar';
-import sidebar from '@/components/sidebar';
-import container from '@/components/container';
-import alFooter from '@/components/al-footer';
+import navbar from './components/navbar';
+import sidebar from './components/sidebar';
+import container from './components/container';
+import alFooter from './components/al-footer';
 
 
 

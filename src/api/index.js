@@ -10,8 +10,8 @@
  */
 import Vue from 'vue';
 import axios from 'axios';
-import {CODE_OK, BASE_URL, TIMEOUT, WITH_CREDENTIALS, SERVICE} from '@/config';
-import utils from '@/utils';
+import {CODE_OK, BASE_URL, TIMEOUT, WITH_CREDENTIALS, SERVICE} from './../config';
+import utils from './../utils';
 
 class Http {
 	constructor({

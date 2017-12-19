@@ -10,7 +10,7 @@
  */
 
 
-import {STORAGE_KEY, STORAGE_TYPE} from '@/config';
+import {STORAGE_KEY, STORAGE_TYPE} from './../config';
 
 
 class Storage{

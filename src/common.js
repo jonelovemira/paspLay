@@ -1,9 +1,9 @@
 import Router from 'vue-router';
-import Http from '@/api'
-import Bus from '@/api/bus';
-import Cookie from '@/api/cookie';
-import Storage from '@/api/storage';
-import App from '@/App';
+import Http from './api'
+import Bus from './api/bus';
+import Cookie from './api/cookie';
+import Storage from './api/storage';
+import App from './App';
 
 class Common{
 	constructor(){
