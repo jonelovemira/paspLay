@@ -66,7 +66,7 @@ export default {
         }
 
         .main-block {
-            margin-top: 110px;
+            padding-top: 110px;
         }
 
         .el-menu {
@@ -105,6 +105,7 @@ export default {
             color: #333;
             line-height: 60px;
             box-shadow: 0 1px 3px 0 rgba(0,34,77,.1);
+            z-index: 200;
         }
         
 </style>

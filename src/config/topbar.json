@@ -9,15 +9,15 @@
         "sub": [
             {
                 "name": "选项1",
-                "path": ""
+                "path": "/option1"
             },
             {
                 "name": "选项2",
-                "path": ""
+                "path": "/option2"
             },
             {
                 "name": "选项3",
-                "path": ""
+                "path": "/option3"
             }
         ]
     },
