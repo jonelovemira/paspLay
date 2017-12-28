@@ -1,22 +1,51 @@
 <template>
-	<div class="sidebar">
-			<ul>
-				<li><a class="active" href="#/monitor"><i class="el-icon-edit"></i><span>首页</span></a></li>
-				<li><router-link to="/order"><i class="el-icon-share"></i><span>评论</span></router-link></li>
-				<li><a href="#/order"><i class="el-icon-delete"></i><span>消息</span></a></li>
-				<li><a href="javascript:;"><i class="el-icon-info"></i><span></span>企业</a></li>
-				<li><a href="javascript:;"><i class="el-icon-d-caret"></i><span></span>个人</a></li>
-			</ul>
-			<ul>
-				<li><a href="javascript:;"><i class="el-icon-goods"></i><span></span>讨论</a></li>
-				<li><a href="javascript:;"><i class="el-icon-location"></i><span></span>收藏</a></li>
-				<li><a href="javascript:;"><i class="el-icon-document"></i><span></span>帮助</a></li>
-				<li><a href="javascript:;"><i class="el-icon-bell"></i><span></span>社区</a></li>
-				<li><a href="javascript:;"><i class="el-icon-news"></i><span></span>FAQ</a></li>
-			</ul>
-		
-		
-	</div>
+	<el-menu>
+      <el-submenu index="1">
+        <template slot="title">导航一</template>
+        <el-menu-item-group>
+          <template slot="title">分组一</template>
+          <el-menu-item index="1-1">选项1</el-menu-item>
+          <el-menu-item index="1-2">选项2</el-menu-item>
+        </el-menu-item-group>
+        <el-menu-item-group title="分组2">
+          <el-menu-item index="1-3">选项3</el-menu-item>
+        </el-menu-item-group>
+        <el-submenu index="1-4">
+          <template slot="title">选项4</template>
+          <el-menu-item index="1-4-1">选项4-1</el-menu-item>
+        </el-submenu>
+      </el-submenu>
+      <el-submenu index="2">
+        <template slot="title">导航二</template>
+        <el-menu-item-group>
+          <template slot="title">分组一</template>
+          <el-menu-item index="2-1">选项1</el-menu-item>
+          <el-menu-item index="2-2">选项2</el-menu-item>
+        </el-menu-item-group>
+        <el-menu-item-group title="分组2">
+          <el-menu-item index="2-3">选项3</el-menu-item>
+        </el-menu-item-group>
+        <el-submenu index="2-4">
+          <template slot="title">选项4</template>
+          <el-menu-item index="2-4-1">选项4-1</el-menu-item>
+        </el-submenu>
+      </el-submenu>
+      <el-submenu index="3">
+        <template slot="title">导航三</template>
+        <el-menu-item-group>
+          <template slot="title">分组一</template>
+          <el-menu-item index="3-1">选项1</el-menu-item>
+          <el-menu-item index="3-2">选项2</el-menu-item>
+        </el-menu-item-group>
+        <el-menu-item-group title="分组2">
+          <el-menu-item index="3-3">选项3</el-menu-item>
+        </el-menu-item-group>
+        <el-submenu index="3-4">
+          <template slot="title">选项4</template>
+          <el-menu-item index="3-4-1">选项4-1</el-menu-item>
+        </el-submenu>
+      </el-submenu>
+    </el-menu>
 </template>
 
 <script>
@@ -24,39 +53,3 @@
 		name: 'sidebar'
 	}
 </script>
-<style scoped lang="scss">
-	.sidebar{
-		display: flex;
-		flex-direction: column;
-		width: 120px;
-		transition: all .1s linear;
-	}
-	ul{
-		list-style: none;
-		border-top: 1px solid #f1f1f1;
-   		padding: 6px 0;
-   		margin: 0px;
-   		&:first-child{
-			border-top: none;
-   		}
-	}
-	li{
-		a{
-			display: flex;
-			justify-content: flex-start;
-			align-items: center;
-			color: #222;
-			padding: 6px 0;
-			line-height: 30px;
-			height: 30px;
-			text-align: center;
-			text-decoration:none;
-			vertical-align: baseline;
-			&.active{
-				color: #05a;
-				font-size: 18px;
-				font-weight: 600;
-			}
-		}
-	}
-</style>
