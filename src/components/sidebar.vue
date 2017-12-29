@@ -1,55 +1,118 @@
 <template>
-	<el-menu>
-      <el-submenu index="1">
-        <template slot="title">导航一</template>
-        <el-menu-item-group>
-          <template slot="title">分组一</template>
-          <el-menu-item index="1-1">选项1</el-menu-item>
-          <el-menu-item index="1-2">选项2</el-menu-item>
+	
+
+    <el-menu
+      v-if="hasMenu"
+      :default-active="activeIndex"
+      :router="true"
+      @select="handleSelect">
+      <el-menu-item
+        v-for="(n, index) in sidebars"
+        v-if="!n.sub"
+        :index="'' + index"
+        :key="index"
+        :route="{path: n.path}">
+        {{n.name}}
+      ></el-menu-item>
+      <el-submenu
+        v-else
+        :index="'' + index"
+      >
+        <template slot="title">
+          {{n.name}}
+        </template>
+        <el-menu-item
+          v-for="(sub, sub_index) in n.sub"
+          v-if="!sub.sub && !sub.group"
+          :route="{path: sub.path}"
+          :index="`${index}-${sub_index}`"
+          :key="`${index}-${sub_index}`">
+          {{sub.name}}
+        </el-menu-item>
+        <el-menu-item-group 
+          v-for="(sub, sub_index) in n.sub"
+          v-if="sub.group"
+          :key="`${index}-${sub_index}`">
+          <template slot="title">{{sub.name}}</template>
+          <el-menu-item
+            v-for="(subsub, subsub_index) in sub.group"
+            :index="`${index}-${sub_index}-${subsub_index}`"
+            :route="{path: subsub.path}"
+            :key="`${index}-${sub_index}-${subsub_index}`"
+          >{{subsub.name}}</el-menu-item>
         </el-menu-item-group>
-        <el-menu-item-group title="分组2">
-          <el-menu-item index="1-3">选项3</el-menu-item>
-        </el-menu-item-group>
-        <el-submenu index="1-4">
-          <template slot="title">选项4</template>
-          <el-menu-item index="1-4-1">选项4-1</el-menu-item>
-        </el-submenu>
-      </el-submenu>
-      <el-submenu index="2">
-        <template slot="title">导航二</template>
-        <el-menu-item-group>
-          <template slot="title">分组一</template>
-          <el-menu-item index="2-1">选项1</el-menu-item>
-          <el-menu-item index="2-2">选项2</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="分组2">
-          <el-menu-item index="2-3">选项3</el-menu-item>
-        </el-menu-item-group>
-        <el-submenu index="2-4">
-          <template slot="title">选项4</template>
-          <el-menu-item index="2-4-1">选项4-1</el-menu-item>
-        </el-submenu>
-      </el-submenu>
-      <el-submenu index="3">
-        <template slot="title">导航三</template>
-        <el-menu-item-group>
-          <template slot="title">分组一</template>
-          <el-menu-item index="3-1">选项1</el-menu-item>
-          <el-menu-item index="3-2">选项2</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="分组2">
-          <el-menu-item index="3-3">选项3</el-menu-item>
-        </el-menu-item-group>
-        <el-submenu index="3-4">
-          <template slot="title">选项4</template>
-          <el-menu-item index="3-4-1">选项4-1</el-menu-item>
+        <el-submenu
+          v-for="(sub, sub_index) in n.sub"
+          v-if="sub.sub"
+          :index="`${index}-${sub_index}`"
+          :key="`${index}-${sub_index}`"
+        >
+          <template slot="title">
+            {{sub.name}}
+          </template>
+          <el-menu-item
+            v-for="(subsub, subsub_index) in sub.sub"
+            :index="`${index}-${sub_index}-${subsub_index}`"
+            :route="{path: subsub.path}"
+            :key="`${index}-${sub_index}-${subsub_index}`"
+          >{{subsub.name}}</el-menu-item>
         </el-submenu>
       </el-submenu>
     </el-menu>
 </template>
 
 <script>
+  /* group与sub互不嵌套 */
 	export default {
-		name: 'sidebar'
+		name: 'sidebar',
+    props: ['sidebars'],
+    computed: {
+
+      activeIndex() {
+
+
+        let getResultIndex = function(origin, postfix) {
+          if (origin.length == 0) {
+            return postfix;
+          }
+          return origin + '-' + postfix;
+        };
+        let searchActiveInNode = function(node, prefix) {
+
+          for (let i = 0, l = node.length; i < l; i++) {
+            let index = getResultIndex(prefix, i);
+            if (node[i].active) {
+              return index;
+            }
+
+            if (node[i].sub) {
+              let newIndex = searchActiveInNode(node[i].sub, index);
+              if (newIndex && newIndex != index) {
+                return newIndex;
+              }
+            }
+
+            if (node[i].group) {
+              let newIndex = searchActiveInNode(node[i].group, index);
+              if (newIndex && newIndex != index) {
+                return newIndex;
+              }
+            }
+          }
+        };
+
+        let activeIndex = searchActiveInNode(this.sidebars, '')
+        console.log(activeIndex);
+        return activeIndex;
+      },
+      hasMenu(){
+          return this.sidebars.length > 0;
+      }
+    },
+    methods: {
+      handleSelect(key, keyPath){
+          console.log(key, keyPath);
+      }
+    }
 	}
 </script>

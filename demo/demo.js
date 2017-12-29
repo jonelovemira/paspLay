@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Common from '@/main';
 import navs from '@/config/topbar.json';
+import sidebars from '@/config/sidebar.json';
 
 
 Vue.config.productionTip = false;
@@ -17,7 +18,7 @@ new Vue({
      vNodes.push(
          h(Common.App, {
            props: {
-             navs
+             navs,sidebars
            }
          })
      );    

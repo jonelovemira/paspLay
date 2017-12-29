@@ -1,0 +1,65 @@
+[
+    {
+        "name": "导航一",
+        "sub": [
+            {
+                "name": "分组一",
+                "group": [
+                    {
+                        "name": "选项1",
+                        "path": "/option1-1"
+                    },
+                    {
+                        "name": "选项2",
+                        "path": "/option1-2"
+                    }
+                ]
+            },
+            {
+                "name": "分组二",
+                "group": [
+                    {
+                        "name": "选项3",
+                        "path": "/option1-3"
+                    }
+                ]
+            },
+            {
+                "name": "选项4",
+                "sub": [
+                    {
+                        "name": "选项4-1",
+                        "active": true,
+                        "path": "/option1-4-1"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "导航二",
+        "path": "/option2"
+    },
+    {
+        "name": "导航三",
+        "sub": [
+            {
+                "name": "选项1",
+                "sub": [
+                    {
+                        "name": "选项1-1",
+                        "path": "/option3-1-1"
+                    },
+                    {
+                        "name": "选项1-2",
+                        "path": "/option3-1-2"
+                    }
+                ]
+            },
+            {
+                "name": "分组二",
+                "path": "/option3-2"
+            }
+        ]
+    }
+]

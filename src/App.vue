@@ -8,7 +8,7 @@
                 <el-container class="middle-block">
                     <el-aside class="my-aside" width="240px">
                         <el-scrollbar wrap-style="overflow-x:hidden;" style="height:100%;">
-                            <sidebar></sidebar>
+                            <sidebar :sidebars="sidebars"></sidebar>
                         </el-scrollbar>
                     </el-aside>
                     <el-main class="my-main">
@@ -32,7 +32,7 @@ import container from './components/container';
 Vue.use(ElementUI);
 export default {
     name: 'app',
-    props: ['navs'],
+    props: ['navs', 'sidebars'],
     mounted(){
             
     },
@@ -90,6 +90,7 @@ export default {
         .my-main {
             padding-left: 270px;
             padding-top: 0px;
+            padding-bottom: 100px;
         }
 
         .width-100-percent {
