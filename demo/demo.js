@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Common from '@/main';
 import navs from '@/config/topbar.json';
-import sidebars from '@/config/sidebar.json';
+// import sidebars from '@/config/sidebar.json';
 
 
 Vue.config.productionTip = false;
@@ -9,6 +9,7 @@ Vue.config.productionTip = false;
 Vue.use(Common, {
     router: require.context('./components', true, /router.js$/)
 });
+
 
 new Vue({
   el: '#app',
@@ -18,13 +19,12 @@ new Vue({
      vNodes.push(
          h(Common.App, {
            props: {
-             navs,sidebars
+             navs
            }
          })
      );    
      return h('div', {}, vNodes)
   },
-  components: { App: Common.App },
   mounted(){
       //测试Http
       // this._$http.cluster.list().then(d => console.log(d));

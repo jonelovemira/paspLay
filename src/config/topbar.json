@@ -1,13 +1,13 @@
 [
     {
         "name": "处理中心",
-        "active": true,
         "path": "/monitor"
     },
     {
         "name": "我的工作台",
         "sub": [
             {
+                "active": true,
                 "name": "选项1",
                 "path": "/option1"
             },

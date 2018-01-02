@@ -13,7 +13,7 @@
                     <el-dropdown-item>我的订单</el-dropdown-item>
                     <el-dropdown-item divided>退出</el-dropdown-item>
                 </el-dropdown-menu>
-            </el-dropdown>
+            </el-dropdown>`
         </div>
         <div style="width:500px; float:right;">
             <el-menu 
@@ -84,11 +84,18 @@
             }
         },
         methods: {
+            // _findSidebarFlagByPath(path) {
+            //     let flag = false;
+            //     for (let i = 0, l = this.navs.length; i < l ; i++) {
+            //         if () {}
+            //     }
+            // },
             getIndex(...args){
                 return args.join('-');
             },
             handleSelect(key, keyPath){
-                console.log(key, keyPath);
+                // console.log(key, keyPath);
+                console.log(this.activeIndex);
             }
         }
     }
