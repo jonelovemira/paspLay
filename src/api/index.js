@@ -76,10 +76,15 @@ class Http {
 			path = '';
 		}
 
+
 		action.forEach(function (com){
 
-			const relativePath = utils.replaceHomeEnd(`${path}/${com}`, '/', '').replace(/\/{2,}/g, '/');
-			const fun_text = `return this.get('${relativePath}', {params: params})`
+			let relativePath = utils.replaceHomeEnd(`${path}/${com}`, '/', '').replace(/\/{2,}/g, '/');
+			//如果是本地，走json-server 模拟数据
+			if(process.env.NODE_ENV == 'local'){
+				relativePath = utils.replaceAll(relativePath, '/', '_').toLowerCase();
+			} 
+			let fun_text = `return this.get('${relativePath}', {params: params})`
 			funcObj[utils.toCamelCase(com, '/')] = (new Function('params', fun_text)).bind(context);
 		});
 		return funcObj;

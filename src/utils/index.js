@@ -26,6 +26,11 @@ const toCamelCase = (str, seperator = '_') => {
 	str = str.replace(reg, (_, p1) => p1.toUpperCase())
 	return str[0].toLowerCase() + str.slice(1);
 }
+//替换字符串中的某个字符
+const replaceAll = (str, seperator = '', replaceMent = '' ) => {
+	const reg = new RegExp(seperator, 'g');
+	return str.replace(reg, replaceMent);
+}
 
 //数字转化为千分位 1234 => 1,234
 const toThousands = (num) => {
@@ -47,5 +52,6 @@ export default {
 	warn_svr,
 	replaceHomeEnd,
 	toCamelCase,
-	toThousands
+	toThousands,
+	replaceAll
 }
