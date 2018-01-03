@@ -36,13 +36,13 @@
         methods: {
             getData(){
 
-              this._$http.cluster.list({
-                clusterId: 'at2', 
-                token: 'jKhum9rBRkiZAVEYdtHJVIliDILBZ8nCRhP7201XL7U%3D',
-                userId: 'duanyy'
-              }).then(data => {
-                console.log('I got data: ', data);
-              });
+              // this._$http.cluster.list({
+              //   clusterId: 'at2', 
+              //   token: 'jKhum9rBRkiZAVEYdtHJVIliDILBZ8nCRhP7201XL7U%3D',
+              //   userId: 'duanyy'
+              // }).then(data => {
+              //   console.log('I got data: ', data);
+              // });
               
               
             }
