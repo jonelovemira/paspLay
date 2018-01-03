@@ -62,7 +62,7 @@
 </template>
 
 <script>
-  /* group与sub互不嵌套 */
+  /* 第一层只有sub，然后第二级只有item，group，sub三种，第二级的group和sub里面只能是item */
 	export default {
 		name: 'sidebar',
     props: ['sidebars'],
@@ -102,7 +102,6 @@
         };
 
         let activeIndex = searchActiveInNode(this.sidebars, '')
-        console.log(activeIndex);
         return activeIndex;
       },
       hasMenu(){
