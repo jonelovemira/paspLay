@@ -1,15 +1,15 @@
 {
-  "name": "alogic-vue-common",
-  "version": "1.0.1",
+  "name": "@alogic/alogic-vue-common",
+  "version": "1.0.2",
   "description": "AEP公共模块",
   "author": "liuqiao <liuqiao@189.cn>",
   "main": "src/main.js",
-  "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "build": "node build/build.js",
-    "mock": "node mock/server.js "
+    "mock": "node mock/server.js ",
+    "prepublishOnly": "npm version patch && git push origin master --tags"
   },
   "dependencies": {
     "element-ui": "^2.0.7",
