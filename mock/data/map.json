@@ -1,0 +1,10 @@
+{
+  	  
+  "branch_list": [
+  		{"name":"宁夏","branchId":"6400","area_code":"951"},{"name":"新疆","branchId":"6500","area_code":"991"},{"name":"台湾","branchId":"7100","area_code":"0886"},{"name":"香港(国际)","branchId":"8100","area_code":"0852"},{"name":"澳门","branchId":"8200","area_code":"0853"}
+  ],
+  "comments": [
+    { "id": 1, "body": "some comment", "postId": 1 }
+  ],
+  "profile": { "name": "typicode" }
+}

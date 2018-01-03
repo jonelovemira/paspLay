@@ -84,6 +84,7 @@ class Http {
 			if(process.env.NODE_ENV == 'local'){
 				relativePath = utils.replaceAll(relativePath, '/', '_').toLowerCase();
 			} 
+			console.log('relativePath:', process.env.NODE_ENV, relativePath);
 			let fun_text = `return this.get('${relativePath}', {params: params})`
 			funcObj[utils.toCamelCase(com, '/')] = (new Function('params', fun_text)).bind(context);
 		});
