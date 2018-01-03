@@ -82,7 +82,7 @@ export default {
         overflow: hidden;
     }
 
-    body > div {
+    body > div:first-of-type {
         height: 100%;
     }
 
