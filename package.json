@@ -14,7 +14,8 @@
   "dependencies": {
     "element-ui": "^2.0.7",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "dateformat": "^3.0.2"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -27,7 +28,6 @@
     "chalk": "^2.0.1",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.0",
-    "dateformat": "^3.0.2",
     "eventsource-polyfill": "^0.9.6",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^1.1.4",
