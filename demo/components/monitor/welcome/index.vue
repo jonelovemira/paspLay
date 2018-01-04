@@ -105,6 +105,26 @@
     </el-popover>
   </div>
 
+
+  <h3>Dialog对话框</h3>
+  <p>在保留当前页面状态的情况下，告知用户并承载相关操作。</p>
+  <div>
+    <el-button type="text" @click="dialogVisible = true">点击打开 Dialog</el-button>
+
+    <el-dialog
+      title="提示"
+      :visible.sync="dialogVisible"
+      width="30%"
+      :before-close="handleClose">
+      <span>这是一段信息</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
+  </div>
+
+
   <h3>线形进度条 — 百分比外显</h3>
   <p>用于展示操作进度，告知用户当前状态和预期。</p>
   <div style="display: flex;">
@@ -244,6 +264,7 @@
   export default {
     data() {
       return {
+        dialogVisible: false,
         activeNames: ['1'],
         tableData3: [{
           date: '2016-05-03',
@@ -312,6 +333,13 @@
     },
 
     methods: {
+      handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+      },
       toggleSelection(rows) {
         if (rows) {
           rows.forEach(row => {
@@ -330,6 +358,9 @@
           message: '这是一条成功的提示消息',
           type: 'success'
         });
+      },
+      handleChange(val) {
+        console.log(val);
       },
 
       open4() {

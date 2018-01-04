@@ -9,7 +9,7 @@
     "start": "npm run dev",
     "build": "node build/build.js",
     "mock": "node mock/server.js ",
-    "prepublishOnly": "npm version patch && git push origin master --tags"
+    "prepublishOnly": "npm version patch && git push origin master"
   },
   "dependencies": {
     "element-ui": "^2.0.7",

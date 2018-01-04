@@ -6,7 +6,7 @@
         <div style="float:right;">
             <el-dropdown>
                 <span class="el-dropdown-link">
-                    小明就是我<i class="el-icon-location-outline el-icon--right"></i>
+                    个人中心<i class="el-icon-location-outline el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>我的主页</el-dropdown-item>
