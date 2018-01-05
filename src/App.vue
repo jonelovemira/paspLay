@@ -38,7 +38,7 @@ export default {
     .middle-block {
         width: 1140px;
         padding: 0;
-        margin: 0 auto;
+        margin: 0 auto 80px;
     }
 
     .header-style {
