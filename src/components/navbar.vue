@@ -13,7 +13,7 @@
                     <el-dropdown-item>我的订单</el-dropdown-item>
                     <el-dropdown-item divided>退出</el-dropdown-item>
                 </el-dropdown-menu>
-            </el-dropdown>`
+            </el-dropdown>
         </div>
         <div style="width:500px; float:right;">
             <el-menu 
