@@ -73,7 +73,7 @@
 
         let getResultIndex = function(origin, postfix) {
           if (origin.length == 0) {
-            return postfix;
+            return postfix + '';
           }
           return origin + '-' + postfix;
         };
