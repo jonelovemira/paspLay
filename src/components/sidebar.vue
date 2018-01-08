@@ -62,14 +62,16 @@
 </template>
 
 <script>
-  /* 第一层只有sub，然后第二级只有item，group，sub三种，第二级的group和sub里面只能是item */
+  /* 第一层只有sub，然后第二级只有item，group，sub三种，第二级的group和sub里面只能是item 
+    active先判断当前路由，如果没有找到则使用配置项中的active=true项。
+  */
 	export default {
 		name: 'sidebar',
     props: ['sidebars'],
     computed: {
 
       activeIndex() {
-
+        let currentPath = this.$route.path;
 
         let getResultIndex = function(origin, postfix) {
           if (origin.length == 0) {
@@ -77,23 +79,23 @@
           }
           return origin + '-' + postfix;
         };
-        let searchActiveInNode = function(node, prefix) {
+        let searchActiveInNode = function(node, prefix, checkActive) {
 
           for (let i = 0, l = node.length; i < l; i++) {
             let index = getResultIndex(prefix, i);
-            if (node[i].active) {
+            if (checkActive(node[i])) {
               return index;
             }
 
             if (node[i].sub) {
-              let newIndex = searchActiveInNode(node[i].sub, index);
+              let newIndex = searchActiveInNode(node[i].sub, index, checkActive);
               if (newIndex && newIndex != index) {
                 return newIndex;
               }
             }
 
             if (node[i].group) {
-              let newIndex = searchActiveInNode(node[i].group, index);
+              let newIndex = searchActiveInNode(node[i].group, index, checkActive);
               if (newIndex && newIndex != index) {
                 return newIndex;
               }
@@ -101,7 +103,25 @@
           }
         };
 
-        let activeIndex = searchActiveInNode(this.sidebars, '')
+        let checkActiveByFlag = function (node) {
+          if (node && node.active) {
+            return true;
+          }
+          return false;
+        }
+
+        
+        let checkActiveByPath = function (node) {
+          if (node && node.path && node.path == currentPath) {
+            return true;
+          }
+          return false;
+        }
+
+        let activeIndex = searchActiveInNode(this.sidebars, '', checkActiveByPath);
+        if (!activeIndex) {
+          activeIndex = searchActiveInNode(this.sidebars, '', checkActiveByFlag);
+        }
         return activeIndex;
       },
       hasMenu(){
