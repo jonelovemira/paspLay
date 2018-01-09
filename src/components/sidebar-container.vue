@@ -46,9 +46,7 @@ export default {
     }
 
     .my-main {
-        padding-left: 270px;
-        padding-top: 0px;
-        padding-bottom: 100px;
+        padding: 0 0 100px 270px;
     }
 </style>
 
