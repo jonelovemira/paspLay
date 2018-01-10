@@ -57,22 +57,57 @@
         props: ['navs'],
         computed:{
             activeIndex(){
-                let index = '0';
-                for(let i = 0, l = this.navs.length; i < l; i++){
-                    if(this.navs[i].active){
-                        index = `${i}`;
-                        break;
-                    }
-                    if(this.navs[i].sub){
-                        for(let j = 0, jLength = this.navs[i].sub.length; j < jLength; j++){
-                            if(this.navs[i].sub[j].active){
-                                index = `${i}-${j}`;
-                                break;
+                let activeResult, currentPath = this.$route.path;
+
+                let findActive = function (checkActiveFunc) {
+                    let index = '0';
+                    for(let i = 0, l = this.navs.length; i < l; i++){
+                        if(!this.navs[i].sub && checkActiveFunc(this.navs[i])){
+                            index = `${i}`;
+                            break;
+                        }
+                        if(this.navs[i].sub){
+                            for(let j = 0, jLength = this.navs[i].sub.length; j < jLength; j++){
+                                if(checkActiveFunc(this.navs[i].sub[j])){
+                                    index = `${i}-${j}`;
+                                    break;
+                                }
                             }
                         }
                     }
+                    return index;
                 }
-                return index;
+                
+
+                let checkActiveByPath = function (node) {
+                    if (node && node.path) {
+                        if (node.path == '/') {
+                            if (currentPath == '/') {
+                                return true;
+                            }
+                        } else {
+                            if ((new RegExp('^' + node.path)).test(currentPath)) {
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                };
+
+                let checkActiveByFlag = function (node) {
+                    if (node && node.active) {
+                        return true;
+                    }
+                    return false;
+                };
+
+                activeResult = findActive.call(this, checkActiveByPath);
+
+                if (!activeResult) {
+                    activeResult = findActive.call(this, checkActiveByFlag);
+                }
+
+                return activeResult;
             },
             hasMenu(){
                 return this.navs.length > 0;

@@ -109,7 +109,7 @@
 
                 
                 let checkActiveByPath = function (node) {
-                    if (node && node.path && node.path == currentPath) {
+                    if (node && node.path && (new RegExp('^' + node.path)).test(currentPath) {
                         return true;
                     }
                     return false;
