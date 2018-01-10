@@ -9,7 +9,7 @@
             v-if="!n.sub"
             :index="'' + index"
             :key="index"
-            :route="{path: n.path}">
+            :route="{path: n.path, name: n.route_name, params: n.params}">
             {{n.name}}
         ></el-menu-item>
         <el-submenu
@@ -22,7 +22,7 @@
             <el-menu-item
                 v-for="(sub, sub_index) in n.sub"
                 v-if="!sub.sub && !sub.group"
-                :route="{path: sub.path}"
+                :route="{path: sub.path,name: sub.route_name, params: sub.params}"
                 :index="`${index}-${sub_index}`"
                 :key="`${index}-${sub_index}`">
                 {{sub.name}}
@@ -35,7 +35,7 @@
                 <el-menu-item
                     v-for="(subsub, subsub_index) in sub.group"
                     :index="`${index}-${sub_index}-${subsub_index}`"
-                    :route="{path: subsub.path}"
+                    :route="{path: subsub.path,name: subsub.route_name, params: subsub.params}"
                     :key="`${index}-${sub_index}-${subsub_index}`"
                 >{{subsub.name}}</el-menu-item>
             </el-menu-item-group>
@@ -51,7 +51,7 @@
                 <el-menu-item
                     v-for="(subsub, subsub_index) in sub.sub"
                     :index="`${index}-${sub_index}-${subsub_index}`"
-                    :route="{path: subsub.path}"
+                    :route="{path: subsub.path,name: subsub.route_name, params: subsub.params}"
                     :key="`${index}-${sub_index}-${subsub_index}`"
                 >{{subsub.name}}</el-menu-item>
             </el-submenu>
@@ -109,7 +109,7 @@
 
                 
                 let checkActiveByPath = function (node) {
-                    if (node && node.path && (new RegExp('^' + node.path)).test(currentPath) {
+                    if (node && node.path && (new RegExp('^' + node.path)).test(currentPath)) {
                         return true;
                     }
                     return false;
