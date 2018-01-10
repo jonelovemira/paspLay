@@ -47,7 +47,11 @@ class Http {
 								if(res.data && res.data.code === CODE_OK){
 									// 如果后台data字段有值，则返回优先后台数据data
 									// 如果后台字段data没有值，说明是update delete之类的操作，直接返回即可
-									return res.data.data || res.data;
+									let result = res.data.data || res.data;
+									if (!Number.isNaN(parseInt(res.total))) {
+										result.total = res.total;
+									}
+									return result;
 								// 后台查询/操作失败
 								}else{
 									utils.warn_svr(res);
