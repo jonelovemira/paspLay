@@ -10,7 +10,7 @@
  */
 import Vue from 'vue';
 import axios from 'axios';
-import {CODE_OK, BASE_URL, TIMEOUT, WITH_CREDENTIALS, SERVICE} from './../config';
+import {CODE_OK, BASE_URL, TIMEOUT, WITH_CREDENTIALS, SERVICE, SERVICE_EXCLUDE_FUNNAMES} from './../config';
 import utils from './../utils';
 
 class Http {
@@ -48,14 +48,8 @@ class Http {
 									// 如果后台data字段有值，则返回优先后台数据data
 									// 如果后台字段data没有值，说明是update delete之类的操作，直接返回即可
 									let result = res.data.data || res.data;
-									if (!Number.isNaN(parseInt(res.data.total))) {
-										result.total = res.data.total;
-									} else {
-										if (!Number.isNaN(parseInt(res.total))) {
-											result.total = res.total;
-										}
-									}
-
+									//返回结果上加上total字段
+									result.total = res.data.total>>>0;
 									return result;
 								// 后台查询/操作失败
 								}else{
@@ -72,9 +66,11 @@ class Http {
 
 	makeAction(name, action){
 		const camelCase = utils.toCamelCase( utils.replaceHomeEnd(name, '/', ''), '/');
+
 		this._actions[camelCase] = {};
 		Object.assign(this._actions[camelCase], this.createRequests( name, action));
 	}
+
 
 	createRequests(path = '/', action = []){
 		const context = this._http;
@@ -86,18 +82,24 @@ class Http {
 		}
 
 
-		action.forEach(function (com){
+		action.forEach( (com) => {
 
 			let relativePath = utils.replaceHomeEnd(`${path}/${com}`, '/', '').replace(/\/{2,}/g, '/');
 			//如果是本地，走json-server 模拟数据
 			if(process.env.NODE_ENV == 'local'){
 				relativePath = utils.replaceAll(relativePath, '/', '_').toLowerCase();
 			} 
-			console.log('relativePath:', process.env.NODE_ENV, relativePath);
-			let fun_text = `return this.get('${relativePath}', {params: params})`
-			funcObj[utils.toCamelCase(com, '/')] = (new Function('params', fun_text)).bind(context);
+			let fun_text = `return this.get('${relativePath}', {params: params})`;
+			let fun_name = utils.toCamelCase(com, '/');
+			//如果接口名字是bind apply之类的，转化为Bind Apply
+			fun_name = this.isRegularName(fun_name) ? fun_name : fun_name[0].toUpperCase() + fun_name.slice(1);
+			funcObj[fun_name] = (new Function('params', fun_text)).bind(context);
 		});
 		return funcObj;
+	}
+	//是否是合格的函数名字
+	isRegularName(funcname){
+		return !SERVICE_EXCLUDE_FUNNAMES.some( _ => Object.is(funcname, _));
 	}
 
 	
