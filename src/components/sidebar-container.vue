@@ -6,6 +6,7 @@
             </el-scrollbar>
         </el-aside>
         <el-main class="my-main">
+            <slot name="container-header"></slot>
             <container></container>
         </el-main>
     </el-container>
