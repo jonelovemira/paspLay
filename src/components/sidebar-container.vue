@@ -49,28 +49,33 @@ export default {
     .my-main {
         padding: 0 0 100px 270px;
     }
-</style>
 
-<style type="text/css">
-    .el-submenu__title:hover {
+    .my-aside >>> .el-submenu__title:hover {
         background-color: #fff!important;
         color: #409EFF;
     }
 
-    .el-submenu__title:hover i {
+    .my-aside >>> .el-submenu__title:hover i {
         color: #409EFF;
     }
 
-    .el-menu-item:focus, .el-menu-item:hover {
+    .my-aside >>> .el-menu-item:focus {
         background-color: #fff!important;
         color: #409EFF;
     }
 
-    .el-menu .el-submenu__title{
+    .my-aside >>> .el-menu-item:hover {
+        background-color: #fff!important;
+        color: #409EFF;
+    }
+
+    .my-aside >>> .el-menu .el-submenu__title{
         font-size: 16px;
     }
 
-    .el-submenu .el-submenu__title {
+    .my-aside >>> .el-submenu .el-submenu__title {
         font-size: 14px;
     }
+
+
 </style>
