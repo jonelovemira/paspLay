@@ -96,5 +96,8 @@ export default {
 	toThousands,
 	replaceAll,
 	generateNamespace,
-	isRegularFuncName
+	isRegularFuncName,
+	install(Vue, opts){
+		Vue.prototype._$utils = this;
+	}
 }

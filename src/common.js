@@ -3,7 +3,9 @@ import Http from './api'
 import Bus from './api/bus';
 import Cookie from './api/cookie';
 import Storage from './api/storage';
+import Utils from './utils';
 import App from './App';
+
 
 class Common{
 	constructor(){
@@ -38,6 +40,8 @@ class Common{
 		Vue.use(Storage, opts.storage);
 		// 安装路由
 		Vue.use(Router);
+		// 安装utils
+		Vue.use(Utils);
 		
 		//配置路由
 		const routes = [];
