@@ -35,6 +35,11 @@
         },
         methods: {
             getData(){
+              // this._$http.app.auth.list({}).then(_ => console.log(_));
+              // this._$http.app.auth.add({}).then(_ => console.log(_));
+              // this._$http.app.auth.Delete({}).then(_ => console.log(_));
+
+
 
               // this._$http.cluster.list({
               //   clusterId: 'at2', 

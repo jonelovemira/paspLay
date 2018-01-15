@@ -21,7 +21,8 @@ files.forEach(function (file) {
 
 // 这个必须在 server.use(router)之前
 server.use(jsonServer.rewriter({
-  '/services/*': '/$1'
+  '/services/*': '/$1',
+  '/gw/*': '/$1'
 }));
 const router = jsonServer.router(base)
 server.use(router)

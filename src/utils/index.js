@@ -1,8 +1,17 @@
 import dateformat from 'dateformat';
+import {SERVICE_EXCLUDE_FUNNAMES} from './../config';
 
 const _maps = {
 		'/': '\\/'
 };
+const _toString = _maps.toString;
+
+// 是对象
+const isObject = _ =>{
+	return  _toString.call(_).toLowerCase() === '[object object]';
+}
+const isArray = Array.isArray;
+
 // 打印后台警告信息
 const warn_svr = res => {
 	const now = dateformat(Date.now(), 'HH:MM:ss.l');
@@ -48,10 +57,44 @@ const toThousands = (num) => {
 	//1,234
 	return num.split('').reverse().join('') + (numArr[1] ? '.' + numArr[1]  : '');
 }
+
+/**
+ * 转换层级字符串为真正的对象，生成命名空间，如把'a.b.c'生成命名空间到一个对象
+ * @DateTime 2018-01-15
+ * @param    {[Object]}   ctx [要挂载的对象]
+ * @param    {[String]}   str [层级字符串]
+ * @param    {[any type]}   val [要赋的值]
+ * @return   {[Object]}       [转换后的对象]
+ */
+const generateNamespace = (ctx, str, val) => {
+	const arr = str.split('.');
+	const len = arr.length;
+	arr.reduce((prev, cur, idx) => {
+		if(idx === len - 1){
+			cur = isRegularFuncName(cur) ? cur : cur[0].toUpperCase() + cur.slice(1);
+			prev[cur] = val ? val : {};
+		}else{
+			prev[cur] = prev[cur] || {};
+		}
+		return prev[cur];
+	}, ctx);
+	return ctx;
+}
+
+//是否是合格的函数名字
+const isRegularFuncName = funcname => {
+	return !SERVICE_EXCLUDE_FUNNAMES.some( _ => Object.is(funcname, _));
+}
+
+
 export default {
+	isObject,
+	isArray,
 	warn_svr,
 	replaceHomeEnd,
 	toCamelCase,
 	toThousands,
-	replaceAll
+	replaceAll,
+	generateNamespace,
+	isRegularFuncName
 }

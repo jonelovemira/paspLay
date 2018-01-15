@@ -10,8 +10,10 @@
  */
 import Vue from 'vue';
 import axios from 'axios';
-import {CODE_OK, BASE_URL, TIMEOUT, WITH_CREDENTIALS, SERVICE, SERVICE_EXCLUDE_FUNNAMES} from './../config';
+import {CODE_OK, BASE_URL, TIMEOUT, WITH_CREDENTIALS, SERVICE} from './../config';
 import utils from './../utils';
+
+
 
 class Http {
 	constructor({
@@ -36,11 +38,37 @@ class Http {
 	}
 
 	init(){
+		// 初始化服务 ，拦截器
+		this.initSvr().initIntercept();	
+	}
+
+	//初始化服务
+	initSvr(){
 		// 自动生成service函数
 		Object.keys(this._service).forEach(key => {
-		        this.makeAction(key, this._service[key]);
-		});
+				const svr = this._service[key];
+				
+				//services服务 
+				if(Object.is(key, 'services')){
+					if(!utils.isObject(svr)){
+						return false;
+					}
 
+					Object.keys(svr).forEach(kk => {
+		       			 this.makeSvrAction(kk, svr[kk]);
+					})
+				// gw服务
+				}else{
+					if(!utils.isArray(svr)){
+						return false;
+					}
+					this.makeGwAction(key, svr);
+				}
+		});
+		return this;
+	}
+	// 初始化拦截器
+	initIntercept(){
 		this._http.interceptors.response.use(
 							res => {
 								// 后台返回成功
@@ -62,13 +90,33 @@ class Http {
 								return Promise.reject(err.response);
 							}
 		);
+		return this;
 	}
 
-	makeAction(name, action){
+	// 生成service服务
+	makeSvrAction(name, action){
 		const camelCase = utils.toCamelCase( utils.replaceHomeEnd(name, '/', ''), '/');
 
 		this._actions[camelCase] = {};
 		Object.assign(this._actions[camelCase], this.createRequests( name, action));
+	}
+	// 生成gateway服务
+	makeGwAction(prefixPath, action){
+		const context = this._http;
+
+		action.forEach(actionName => {
+			//完整相对路径
+			let relativePath = actionName;
+			
+			//如果是本地，走json-server 模拟数据
+			if(process.env.NODE_ENV == 'local'){
+				relativePath = utils.replaceAll(relativePath, '\\.', '_');
+			} 
+			// 函数体
+			let fun_text = `return this.get('/${prefixPath}/${relativePath}', {params: params})`;
+			// 生成命名空间 并 赋值
+			utils.generateNamespace(this._actions, actionName, (new Function('params', fun_text)).bind(context));
+		})
 	}
 
 
@@ -89,18 +137,15 @@ class Http {
 			if(process.env.NODE_ENV == 'local'){
 				relativePath = utils.replaceAll(relativePath, '/', '_').toLowerCase();
 			} 
-			let fun_text = `return this.get('${relativePath}', {params: params})`;
+			let fun_text = `return this.get('/services/${relativePath}', {params: params})`;
 			let fun_name = utils.toCamelCase(com, '/');
 			//如果接口名字是bind apply之类的，转化为Bind Apply
-			fun_name = this.isRegularName(fun_name) ? fun_name : fun_name[0].toUpperCase() + fun_name.slice(1);
+			fun_name = utils.isRegularFuncName(fun_name) ? fun_name : fun_name[0].toUpperCase() + fun_name.slice(1);
 			funcObj[fun_name] = (new Function('params', fun_text)).bind(context);
 		});
 		return funcObj;
 	}
-	//是否是合格的函数名字
-	isRegularName(funcname){
-		return !SERVICE_EXCLUDE_FUNNAMES.some( _ => Object.is(funcname, _));
-	}
+	
 
 	
 }

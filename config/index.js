@@ -18,6 +18,14 @@ module.exports = {
                 pathRewrite: {
                   '^/services': ''
                 }
+         },
+         '/gw': {
+                target: 'http://localhost:9090',
+                changeOrigin: true,
+                secure: false,
+                pathRewrite: {
+                  '^/gw': ''
+                }
          }
     },
 
