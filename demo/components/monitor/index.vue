@@ -8,6 +8,7 @@
     <div>1</div>
     <div>1</div>
     <div>1</div>
+    <div>{{testNum| toThousands}}</div>
     <div>
       <router-link :to="{name: 'cluster'}">我要去cluster</router-link> <br>
       <router-link :to="{name: 'datacenter'}">我要去datacenter</router-link> <br>
@@ -26,6 +27,11 @@
 
     export default {
         name: 'HelloWorld',
+        data(){
+          return {
+            testNum: 123456789
+          }
+        },
         mounted(){
             this.getData();
         },

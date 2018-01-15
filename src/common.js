@@ -4,6 +4,7 @@ import Bus from './api/bus';
 import Cookie from './api/cookie';
 import Storage from './api/storage';
 import Utils from './utils';
+import './utils/filters';
 import App from './App';
 
 
@@ -24,6 +25,10 @@ class Common{
 		return Http;
 	}
 	
+	get Utils(){
+		return Utils;
+	}
+
 	//路由对象
 	get router(){
 		return this._router;

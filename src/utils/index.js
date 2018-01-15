@@ -52,8 +52,8 @@ const toThousands = (num) => {
 	num = numArr[0];
 	// 4321
 	num = num.split('').reverse().join('');
-	// 432,1
-	num = num.replace(/(\d{3})/g, (_, p) => p + ',');
+	// 432,1   987,654,321, 把最后一个逗号去掉
+	num = num.replace(/(\d{3})/g, (_, p) => p + ',').replace(/,$/, '');
 	//1,234
 	return num.split('').reverse().join('') + (numArr[1] ? '.' + numArr[1]  : '');
 }
