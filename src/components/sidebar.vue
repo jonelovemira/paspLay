@@ -124,7 +124,7 @@
             checkActiveByPath(node) {
                 let result = false;
 
-                if (node.path || node.router_name) {
+                if (node.path || node.route_name) {
                     let routeNode = {
                         name: node.route_name,
                         path: node.path,
