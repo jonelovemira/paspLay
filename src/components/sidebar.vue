@@ -107,15 +107,7 @@
                     return false;
                 }
 
-                
-                let checkActiveByPath = function (node) {
-                    if (node && node.path && (new RegExp('^' + node.path)).test(currentPath)) {
-                        return true;
-                    }
-                    return false;
-                }
-
-                let activeIndex = searchActiveInNode(this.sidebars, '', checkActiveByPath);
+                let activeIndex = searchActiveInNode(this.sidebars, '', this.checkActiveByPath);
                 if (!activeIndex) {
                     activeIndex = searchActiveInNode(this.sidebars, '', checkActiveByFlag);
                 }
@@ -128,6 +120,31 @@
         methods: {
             handleSelect(key, keyPath){
                 // console.log(key, keyPath);
+            },
+            checkActiveByPath(node) {
+                let result = false;
+
+                if (node.path || node.router_name) {
+                    let routeNode = {
+                        name: node.route_name,
+                        path: node.path,
+                        params: node.params
+                    };
+
+                    let route = this.$router.resolve(routeNode);
+
+                    if (route && route.route) {
+                        if (this.$route.name) {
+                            result = route.route.name == this.$route.name;
+                        } else {
+                            result = route.route.path == this.$route.path;
+                        }
+                    }
+
+                };
+
+                return result;
+                
             }
         }
     }
