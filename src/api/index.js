@@ -82,7 +82,7 @@ class Http {
 								// 后台查询/操作失败
 								}else{
 									utils.warn_svr(res);
-									Promise.reject(res.data || res);
+									return Promise.reject(res.data || res);
 									
 								}
 							},
