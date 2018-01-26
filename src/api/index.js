@@ -17,12 +17,11 @@ import utils from './../utils';
 
 class Http {
 	constructor({
-					baseURL = BASE_URL, 
-					timeout = TIMEOUT,
-					withCredentials = WITH_CREDENTIALS,
-					service = SERVICE
-				}){
-	
+		baseURL = BASE_URL, 
+		timeout = TIMEOUT,
+		withCredentials = WITH_CREDENTIALS,
+		service = SERVICE
+	}){
 
 		this._http = axios.create({
 			// 后台地址
@@ -46,50 +45,49 @@ class Http {
 	initSvr(){
 		// 自动生成service函数
 		Object.keys(this._service).forEach(key => {
-				const svr = this._service[key];
-				
-				//services服务 
-				if(Object.is(key, 'services')){
-					if(!utils.isObject(svr)){
-						return false;
-					}
-
-					Object.keys(svr).forEach(kk => {
-		       			 this.makeSvrAction(kk, svr[kk]);
-					})
-				// gw服务
-				}else{
-					if(!utils.isArray(svr)){
-						return false;
-					}
-					this.makeGwAction(key, svr);
+			const svr = this._service[key];
+			
+			//services服务 
+			if(Object.is(key, 'services')){
+				if(!utils.isObject(svr)){
+					return false;
 				}
+
+				Object.keys(svr).forEach(kk => {
+	       			 this.makeSvrAction(kk, svr[kk]);
+				})
+			// gw服务
+			}else{
+				if(!utils.isArray(svr)){
+					return false;
+				}
+				this.makeGwAction(key, svr);
+			}
 		});
 		return this;
 	}
 	// 初始化拦截器
 	initIntercept(){
 		this._http.interceptors.response.use(
-							res => {
-								// 后台返回成功
-								if(res.data && res.data.code === CODE_OK){
-									// 如果后台data字段有值，则返回优先后台数据data
-									// 如果后台字段data没有值，说明是update delete之类的操作，直接返回即可
-									let result = res.data.data || res.data;
-									//返回结果上加上total字段
-									result.total = res.data.total>>>0;
-									return result;
-								// 后台查询/操作失败
-								}else{
-									utils.warn_svr(res);
-									return Promise.reject(res.data || res);
-									
-								}
-							},
-							err => {
-								utils.warn_svr(err.response);
-								return Promise.reject(err.response);
-							}
+			res => {
+				// 后台返回成功
+				if(res.data && res.data.code === CODE_OK){
+					// 如果后台data字段有值，则返回优先后台数据data
+					// 如果后台字段data没有值，说明是update delete之类的操作，直接返回即可
+					let result = res.data.data || res.data;
+					//返回结果上加上total字段
+					result.total = res.data.total>>>0;
+					return result;
+				// 后台查询/操作失败
+				}else{
+					utils.warn_svr(res);
+					return res;
+				}
+			},
+			err => {
+				utils.warn_svr(err.response);
+				return Promise.reject(err.response);
+			}
 		);
 		return this;
 	}
@@ -105,18 +103,42 @@ class Http {
 	makeGwAction(prefixPath, action){
 		const context = this._http;
 
-		action.forEach(actionName => {
-			//完整相对路径
-			let relativePath = actionName;
+		action.forEach(actionItem => {
+			
+			let relativePath = '', option = {
+				method: 'get',
+				url: '',
+				data: {}
+			}, actionName;
+
+
+
+			if (typeof actionItem === 'string') {
+				actionName = actionItem;
+			} else {
+				if (typeof actionItem === 'object') {
+					actionName = actionItem.name;
+					option = Object.assign(option, actionItem.option);
+				}
+			};
+
+			relativePath = actionName;
 			
 			//如果是本地，走json-server 模拟数据
 			if(process.env.NODE_ENV == 'local'){
-				relativePath = utils.replaceAll(relativePath, '\\.', '_');
-			} 
-			// 函数体
-			let fun_text = `return this.get('/${prefixPath}/${relativePath}', {params: params})`;
-			// 生成命名空间 并 赋值
-			utils.generateNamespace(this._actions, actionName, (new Function('params', fun_text)).bind(context));
+				relativePath = utils.replaceAll(actionName, '\\.', '_');
+			};
+
+			option.url = `/${prefixPath}/${relativePath}`;
+
+			let func = params => {
+				option.params = params;
+				// this.request(option);
+				// console.log(context);
+				return context.request(option);
+			};
+
+			utils.generateNamespace(this._actions, actionName, func);
 		})
 	}
 
