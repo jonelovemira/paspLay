@@ -21,8 +21,7 @@
                 :default-active="activeIndex"
                 :router="true"
                 class="el-menu-demo"
-                mode="horizontal"
-                @select="handleSelect">
+                mode="horizontal">
                 <el-menu-item 
                     v-if="!n.sub" 
                     v-for="(n, index) in navs" 
@@ -60,7 +59,7 @@
                 let activeResult, currentPath = this.$route.path;
 
                 let findActive = function (checkActiveFunc) {
-                    let index = '0';
+                    let index;
                     for(let i = 0, l = this.navs.length; i < l; i++){
                         if(!this.navs[i].sub && checkActiveFunc(this.navs[i])){
                             index = `${i}`;
@@ -77,22 +76,6 @@
                     }
                     return index;
                 }
-                
-
-                let checkActiveByPath = function (node) {
-                    if (node && node.path) {
-                        if (node.path == '/') {
-                            if (currentPath == '/') {
-                                return true;
-                            }
-                        } else {
-                            if ((new RegExp('^' + node.path)).test(currentPath)) {
-                                return true;
-                            }
-                        }
-                    }
-                    return false;
-                };
 
                 let checkActiveByFlag = function (node) {
                     if (node && node.active) {
@@ -101,7 +84,7 @@
                     return false;
                 };
 
-                activeResult = findActive.call(this, checkActiveByPath);
+                activeResult = findActive.call(this, this.checkActiveByPath);
 
                 if (!activeResult) {
                     activeResult = findActive.call(this, checkActiveByFlag);
@@ -113,24 +96,34 @@
                 return this.navs.length > 0;
             }
         },
-        data(){
-            return {
-                
-            }
-        },
         methods: {
-            // _findSidebarFlagByPath(path) {
-            //     let flag = false;
-            //     for (let i = 0, l = this.navs.length; i < l ; i++) {
-            //         if () {}
-            //     }
-            // },
             getIndex(...args){
                 return args.join('-');
             },
-            handleSelect(key, keyPath){
-                // console.log(key, keyPath);
-                console.log(this.activeIndex);
+            checkActiveByPath(node) {
+                let result = false;
+
+                if (node.path || node.route_name) {
+                    let routeNode = {
+                        name: node.route_name,
+                        path: node.path,
+                        params: node.params
+                    };
+
+                    let route = this.$router.resolve(routeNode);
+
+                    if (route && route.route) {
+                        if (this.$route.name) {
+                            result = route.route.name == this.$route.name;
+                        } else {
+                            result = route.route.path == this.$route.path;
+                        }
+                    }
+
+                };
+
+                return result;
+                
             }
         }
     }
