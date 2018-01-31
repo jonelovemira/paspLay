@@ -81,10 +81,11 @@ class Http {
 				// 后台查询/操作失败
 				}else{
 					utils.warn_svr(res);
-					return res;
+					return Promise.reject(res.data || res);
 				}
 			},
 			err => {
+				console.log(1111, err)
 				utils.warn_svr(err.response);
 				return Promise.reject(err.response);
 			}
@@ -105,38 +106,20 @@ class Http {
 
 		action.forEach(actionItem => {
 			
-			let relativePath = '', option = {
-				method: 'get',
-				url: '',
-				data: {}
-			}, actionName;
-
-
-
-			if (typeof actionItem === 'string') {
-				actionName = actionItem;
-			} else {
-				if (typeof actionItem === 'object') {
-					actionName = actionItem.name;
-					option = Object.assign(option, actionItem.option);
-				}
-			};
-
+			let relativePath = '', 
+				{actionName, option} = this.parseCfg(actionItem);	
+			//1.要支持本地代理，在json-server中要把.替换成_ 
+			//2.要生成命名空间
+			//所以这里用了两个变量
+			//（如果项目使用data-server，由于JSON代理文件Key值支持.和/，那就不用区分环境，也不用替换，不用两个变量了）
 			relativePath = actionName;
 			
 			//如果是本地，走json-server 模拟数据
-			if(process.env.NODE_ENV == 'local'){
-				relativePath = utils.replaceAll(actionName, '\\.', '_');
-			};
-
+			// if(process.env.NODE_ENV == 'local'){
+			// 	relativePath = utils.replaceAll(relativePath, '\\.', '_');
+			// };
 			option.url = `/${prefixPath}/${relativePath}`;
-
-			let func = params => {
-				option.params = params;
-				// this.request(option);
-				// console.log(context);
-				return context.request(option);
-			};
+			const func = this.createFunc.bind(context, option);
 
 			utils.generateNamespace(this._actions, actionName, func);
 		})
@@ -152,21 +135,62 @@ class Http {
 			path = '';
 		}
 
-
 		action.forEach( (com) => {
+			let relativePath = '',
+				{actionName, option} = this.parseCfg(com);	
 
-			let relativePath = utils.replaceHomeEnd(`${path}/${com}`, '/', '').replace(/\/{2,}/g, '/');
+			// 首尾多余/都替换为空，中间有2+个/都替换成1个/	
+			relativePath = utils.replaceHomeEnd(`${path}/${actionName}`, '/', '').replace(/\/{2,}/g, '/');
 			//如果是本地，走json-server 模拟数据
-			if(process.env.NODE_ENV == 'local'){
-				relativePath = utils.replaceAll(relativePath, '/', '_').toLowerCase();
-			} 
-			let fun_text = `return this.get('/services/${relativePath}', {params: params})`;
-			let fun_name = utils.toCamelCase(com, '/');
+			// if(process.env.NODE_ENV == 'local'){
+			// 	relativePath = utils.replaceAll(relativePath, '/', '_').toLowerCase();
+			// } 
+
+			option.url = `/services/${relativePath}`;
+
+			actionName = utils.toCamelCase(actionName, '/');
 			//如果接口名字是bind apply之类的，转化为Bind Apply
-			fun_name = utils.isRegularFuncName(fun_name) ? fun_name : fun_name[0].toUpperCase() + fun_name.slice(1);
-			funcObj[fun_name] = (new Function('params', fun_text)).bind(context);
+			actionName = utils.isRegularFuncName(actionName) ? actionName : actionName[0].toUpperCase() + actionName.slice(1);
+
+			const func = this.createFunc.bind(context, option);
+			funcObj[actionName] = func;
 		});
 		return funcObj;
+	}
+
+	parseCfg(cfg){
+		let actionName = cfg;
+		const option = {
+			method: 'get'
+		};
+		// {name:'list', option: {method: 'post', data: {}}}	
+		if( utils.isObject(cfg)){
+			actionName = cfg.name;
+			Object.assign(option, cfg.option || {});
+		}
+		//Axios bug: axios库遇到POST方法请求时候，不像jquery一样会默认去设置Content-Type，所以这里必须手动设置
+		if(option.method == 'post'){
+			option.headers = {};
+			option.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+		}
+		return {option, actionName};
+	}
+
+	createFunc(option, params, data){
+
+		if(  Object.is(option.method, 'post') && params && !data){
+			data = params;
+			params = '';
+			
+		}
+		params && (option.params = params);
+		if(Object.is(option.method, 'post') && data){
+			//Axios bug: Browser中，option.data只能是FormData,File, Blob。所以对于对象，需要序列化为字符串,否则HTTP Request Body里还是对象，不会序列化。
+			option.data = data;
+			option.transformRequest = [data => utils.serialize(data)];
+		}
+
+		return this.request(option);
 	}
 	
 

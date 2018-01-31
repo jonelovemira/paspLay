@@ -7,11 +7,16 @@
 	export default {
 		name: 'order',
 		mounted(){
-			// this._$http.metricsAll.getAllHostStatus({
-   //              token: 'jKhum9rBRkiZAVEYdtHJVIliDILBZ8nCRhP7201XL7U%3D'
-   //            }).then(data => {
-   //              console.log(`I got data:`, data);
-   //            });
+
+			this._$http.user.tenant.list().then(data => {
+                console.log(`I got data:`, data);
+              });
+      this._$http.tenant.get.detail({tenantId:'300', $user: 0}).then(data => {
+                console.log(`I got data:`, data);
+              });
+      // this._$http.cluster.list({a: 'b'}, {c: 'd'}).then(data => {
+      //   console.log('I data:', data)
+      // })
 		},
         data() {
             return {

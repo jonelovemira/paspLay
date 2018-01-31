@@ -86,6 +86,18 @@ const isRegularFuncName = funcname => {
 	return !SERVICE_EXCLUDE_FUNNAMES.some( _ => Object.is(funcname, _));
 }
 
+// 序列化对象
+const serialize = obj => {
+	let str = '';
+	if(!isObject(obj)){
+		return obj;
+	}
+	for(var key in obj){
+		str += `${key}=${obj[key]}&`;
+	}
+	return str.replace(/&$/, '');
+}
+
 
 export default {
 	isObject,
@@ -97,6 +109,7 @@ export default {
 	replaceAll,
 	generateNamespace,
 	isRegularFuncName,
+	serialize,
 	install(Vue, opts){
 		Vue.prototype._$utils = this;
 	}
