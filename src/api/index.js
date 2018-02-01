@@ -7,6 +7,20 @@
  *              3依据config/index.js 中SERVICE对象，自动生成数据请求函数
  *              5提供插件形式，通过this.$http即可获取
  *              6提供export暴露出去http服务
+ *              7支持service 和 gw服务的POST请求
+ *              POST请求使用方法：
+ *               7.1 在SERVICE /gw 中，参照如下配置
+ *               	services:{ cluster: [..., {name: 'List', option: {method: 'post', upload: true}}, ...]}
+ *               	gw: [..., {name: 'user.upload', option: {method: 'post', upload: true}}, ...]}
+ *               	其中：method: 'post'是必须配置；
+ *               		  有文件上传，需填upload字段；如没有，可不填。
+ *               7.2使用：
+ *               	使用过程和以前一致。
+ *               	如果是POST请求，可以支持参数在url或body里出现，有如下几种情况：
+ *               	eg:
+ *               	1.this._$http.user.upload({a: 'b'}).then   参数a 以字符串序列化形式出现在body里
+ *               	2.this._$http.user.upload({a: 'b', logo: file}).then	参数a 和 logo文件一起以FormData形式出现在body里， 文件上传选这种模式
+ *               	3.this._$http.user.upload({c: 'd'}, {a: 'b', logo: file} ).then 参数c 以追加参数形式出现在URL后，参数a 和 logo文件出现在body里
  */
 import Vue from 'vue';
 import axios from 'axios';
@@ -76,7 +90,7 @@ class Http {
 					// 如果后台字段data没有值，说明是update delete之类的操作，直接返回即可
 					let result = res.data.data || res.data;
 					//返回结果上加上total字段
-					result.total = res.data.total>>>0;
+					res.data.total && (result.total = res.data.total >>> 0);
 					return result;
 				// 后台查询/操作失败
 				}else{
@@ -85,7 +99,6 @@ class Http {
 				}
 			},
 			err => {
-				console.log(1111, err)
 				utils.warn_svr(err.response);
 				return Promise.reject(err.response);
 			}
@@ -120,7 +133,7 @@ class Http {
 			// };
 			option.url = `/${prefixPath}/${relativePath}`;
 			const func = this.createFunc.bind(context, option);
-
+			//生成有效的命名空间，挂载函数
 			utils.generateNamespace(this._actions, actionName, func);
 		})
 	}
@@ -157,7 +170,7 @@ class Http {
 		});
 		return funcObj;
 	}
-
+	//解析传进来的对象/字符串
 	parseCfg(cfg){
 		let actionName = cfg;
 		const option = {
@@ -170,12 +183,16 @@ class Http {
 		}
 		//Axios bug: axios库遇到POST方法请求时候，不像jquery一样会默认去设置Content-Type，所以这里必须手动设置
 		if(option.method == 'post'){
-			option.headers = {};
-			option.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+			!option.headers && (option.headers = {});
+			if(!option.headers['Content-Type']){
+				option.headers['Content-Type'] = option.upload ? 'multipart/form-data' : 'application/x-www-form-urlencoded';
+			}
 		}
 		return {option, actionName};
 	}
 
+	
+	//创建真实数据函数
 	createFunc(option, params, data){
 
 		if(  Object.is(option.method, 'post') && params && !data){
@@ -186,8 +203,19 @@ class Http {
 		params && (option.params = params);
 		if(Object.is(option.method, 'post') && data){
 			//Axios bug: Browser中，option.data只能是FormData,File, Blob。所以对于对象，需要序列化为字符串,否则HTTP Request Body里还是对象，不会序列化。
-			option.data = data;
-			option.transformRequest = [data => utils.serialize(data)];
+			if(option.upload){
+				const formData = new FormData;
+				for(var key in data){
+					formData.append(key, data[key]);
+				}
+				option.data = formData;	
+				// 删除辅助字段upload
+				delete option.upload;
+			}else{
+				option.data = data;
+				option.transformRequest = [data => utils.serialize(data)];	
+			}
+			
 		}
 
 		return this.request(option);
