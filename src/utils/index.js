@@ -1,5 +1,5 @@
 import dateformat from 'dateformat';
-import {SERVICE_EXCLUDE_FUNNAMES} from './../config';
+import {SVR_EXCLUDE_FUNNAMES} from './../config';
 
 const _maps = {
 		'/': '\\/'
@@ -83,7 +83,7 @@ const generateNamespace = (ctx, str, val) => {
 
 //是否是合格的函数名字
 const isRegularFuncName = funcname => {
-	return !SERVICE_EXCLUDE_FUNNAMES.some( _ => Object.is(funcname, _));
+	return !SVR_EXCLUDE_FUNNAMES.some( _ => Object.is(funcname, _));
 }
 
 // 序列化对象

@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
     export default {
     	name: 'child1',
 		data(){
@@ -18,18 +20,39 @@
 				logo: ''
 			}
 		},
+		mounted(){
+			// var _axios = axios.create({
+			// 	baseURL: 'http://132.246.27.59:9089',
+			// 	// 超时时间
+			// 	timeout: 3000,
+			// 	// CORS跨域请求头
+			// 	withCredentials: true
+			// });
+	  //   	_axios.request({
+	  //   		url: '/gw/tenant.get.detail?tenantId=300&$user=0',
+	  //   		method: 'post',
+	  //   		headers: {
+	  //   			'Content-Type': 'addd'
+	  //   		},
+	  //   		data: {
+	  //   			a: 'b'
+	  //   		}
+	  //   	}).then(_ => {
+	  //   		console.log('i got data', _)
+	  //   	})
+    },
 		methods:{
 			anotherHTTP(){
 
-							// this._$http.user.tenant.list({a:'b'}).then(data => {
-				   //              console.log(`I got data:`, data);
-				   //            });
+							this._$http.user.tenant.list({a:'b'}).then(data => {
+				                console.log(`I got data:`, data);
+				              });
 				      // this._$http.tenant.get.detail({tenantId:'300', $user: 0}).then(data => {
 				      //           console.log(`I got data:`, data);
 				      //         });
-				       this._$http.dc.mapList({aa:'bb'}).then(data => {
-				                console.log(`I got data:`, data);
-				              });
+				      //  this._$http.dc.mapList({aa:'bb'}).then(data => {
+				      //           console.log(`I got data:`, data);
+				      //         });
 				      // this._$http.cluster.list({a: 'b'}, {c: 'd'}).then(data => {
 				      //   console.log('I data:', data)
 				      // })

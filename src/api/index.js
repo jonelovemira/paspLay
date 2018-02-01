@@ -9,31 +9,36 @@
  *              6提供export暴露出去http服务
  *              7支持service 和 gw服务的POST请求
  *              POST请求使用方法：
- *               7.1 在SERVICE /gw 中，参照如下配置
- *               	services:{ cluster: [..., {name: 'List', option: {method: 'post', upload: true}}, ...]}
- *               	gw: [..., {name: 'user.upload', option: {method: 'post', upload: true}}, ...]}
+ *               7.1 在SERVICE /gw 中，参照如下配置,和之前一样
+ *               	services:{ cluster: [..., {name: 'List', option: {method: 'post', transferType: 'form/string'}}, ...]}
+ *               	gw: [..., {name: 'user.upload', option: {method: 'post', transferType: 'form/string'}}, ...]}
  *               	其中：method: 'post'是必须配置；
- *               		  有文件上传，需填upload字段；如没有，可不填。
+ *               		  transferType是可选字段，值：
+ *               		  7.1.1  form，表示body里的参数以FormData形式上传，用于 文件上传，或文件上传+参数，或单独的参数以FormData格式上传(不推荐)
+ *               		  7.1.2  string,表示 body里的参数以 字符串序列化形式传给后台，如 ： a=b&c=d
+ *               		  7.1.3  不填，则表示以json格式传入后台。在没有文件上传的情况下，推荐此种方式
  *               7.2使用：
  *               	使用过程和以前一致。
  *               	如果是POST请求，可以支持参数在url或body里出现，有如下几种情况：
  *               	eg:
- *               	1.this._$http.user.upload({a: 'b'}).then   参数a 以字符串序列化形式出现在body里
- *               	2.this._$http.user.upload({a: 'b', logo: file}).then	参数a 和 logo文件一起以FormData形式出现在body里， 文件上传选这种模式
- *               	3.this._$http.user.upload({c: 'd'}, {a: 'b', logo: file} ).then 参数c 以追加参数形式出现在URL后，参数a 和 logo文件出现在body里
+ *               	this._$http.user.upload({a: 'b'}) 参数{a:b}结合config中的配置出现在body里
+ *               	this._$http.user.upload({a: 'b'}, {c: 'd'}) 参数a=b出现在URL后， 参数{c:d}结合config中的配置出现在body里
+ *               
  */
 import Vue from 'vue';
 import axios from 'axios';
-import {CODE_OK, BASE_URL, TIMEOUT, WITH_CREDENTIALS, SERVICE} from './../config';
+import {SVR_CODE_OK, SVR_BASE_URL, SVR_TIMEOUT, SVR_WITH_CREDENTIALS, SERVICE, SVR_DATA_TYPE_FORM, SVR_DATA_TYPE_STRING} from './../config';
 import utils from './../utils';
+
+
 
 
 
 class Http {
 	constructor({
-		baseURL = BASE_URL, 
-		timeout = TIMEOUT,
-		withCredentials = WITH_CREDENTIALS,
+		baseURL = SVR_BASE_URL, 
+		timeout = SVR_TIMEOUT,
+		withCredentials = SVR_WITH_CREDENTIALS,
 		service = SERVICE
 	}){
 
@@ -47,6 +52,7 @@ class Http {
 		});
 		this._service = service;
 		this._actions = [];
+
 		this.init();
 	}
 
@@ -85,7 +91,7 @@ class Http {
 		this._http.interceptors.response.use(
 			res => {
 				// 后台返回成功
-				if(res.data && res.data.code === CODE_OK){
+				if(res.data && res.data.code === SVR_CODE_OK){
 					// 如果后台data字段有值，则返回优先后台数据data
 					// 如果后台字段data没有值，说明是update delete之类的操作，直接返回即可
 					let result = res.data.data || res.data;
@@ -185,7 +191,9 @@ class Http {
 		if(option.method == 'post'){
 			!option.headers && (option.headers = {});
 			if(!option.headers['Content-Type']){
-				option.headers['Content-Type'] = option.upload ? 'multipart/form-data' : 'application/x-www-form-urlencoded';
+				option.headers['Content-Type'] = option.transferType == SVR_DATA_TYPE_FORM ? 'multipart/form-data' 
+																		   :  option.transferType == SVR_DATA_TYPE_STRING ? 'application/x-www-form-urlencoded'
+																		   :  'text/plain';
 			}
 		}
 		return {option, actionName};
@@ -203,17 +211,22 @@ class Http {
 		params && (option.params = params);
 		if(Object.is(option.method, 'post') && data){
 			//Axios bug: Browser中，option.data只能是FormData,File, Blob。所以对于对象，需要序列化为字符串,否则HTTP Request Body里还是对象，不会序列化。
-			if(option.upload){
+			if(option.transferType ==  SVR_DATA_TYPE_FORM){
 				const formData = new FormData;
 				for(var key in data){
 					formData.append(key, data[key]);
 				}
 				option.data = formData;	
-				// 删除辅助字段upload
-				delete option.upload;
-			}else{
+				// 删除辅助字段transferType
+				delete option.transferType;
+			}else if(option.transferType == SVR_DATA_TYPE_STRING){
 				option.data = data;
 				option.transformRequest = [data => utils.serialize(data)];	
+				// 删除辅助字段transferType
+				delete option.transferType;
+			//如果不设置transferType，默认为text/plain,支持 JSON传输	
+			}else{
+				option.data = data;	
 			}
 			
 		}
