@@ -35,7 +35,6 @@ import utils from './../utils';
 
 
 class Http {
-	static axios = axios;
 
 	constructor({
 		baseURL = SVR_BASE_URL, 
@@ -239,6 +238,8 @@ class Http {
 
 	
 }
+
+Http.axios = axios;
 
 export {Http};
 
