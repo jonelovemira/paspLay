@@ -98,6 +98,34 @@ const serialize = obj => {
 	return str.replace(/&$/, '');
 }
 
+//自定义Map对象
+class CommonMap{
+	constructor(){
+		this._data = new Map;
+	}
+	set(key, value, defaultValue = ''){
+		this._data.set(key, value == null ? defaultValue : value);
+
+	}
+	get(key, defaultValue = ''){
+		const val = this._data.get(key);
+		return   val == null ?  defaultValue : val;
+	}
+	has(key){
+		return this._data.has(key);
+	}
+	remove(key){
+		if(!key){
+			return this._data.clear();
+		}else{
+			return this.delete(key);
+		}
+	}
+	clear(){
+		return this._data.clear();
+	}
+}
+
 
 export default {
 	isObject,
@@ -110,6 +138,7 @@ export default {
 	generateNamespace,
 	isRegularFuncName,
 	serialize,
+	CommonMap,
 	install(Vue, opts){
 		Vue.prototype._$utils = this;
 	}
