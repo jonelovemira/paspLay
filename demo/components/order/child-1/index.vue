@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import axios from 'axios';
-
+import Common from '@/main';
+	
     export default {
     	name: 'child1',
 		data(){
@@ -21,7 +21,9 @@ import axios from 'axios';
 			}
 		},
 		mounted(){
-			// var _axios = axios.create({
+			// console.log(Common.Http.axios)
+			// const request = Common.Http.axios;
+			// var _axios = request.create({
 			// 	baseURL: 'http://132.246.27.59:9089',
 			// 	// 超时时间
 			// 	timeout: 3000,
@@ -32,7 +34,7 @@ import axios from 'axios';
 	  //   		url: '/gw/tenant.get.detail?tenantId=300&$user=0',
 	  //   		method: 'post',
 	  //   		headers: {
-	  //   			'Content-Type': 'addd'
+	  //   			'Content-Type': 'text/plain'
 	  //   		},
 	  //   		data: {
 	  //   			a: 'b'

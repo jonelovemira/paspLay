@@ -1,5 +1,5 @@
 import Router from 'vue-router';
-import Http from './api'
+import HttpInstance, {Http} from './api'
 import Bus from './api/bus';
 import Cookie from './api/cookie';
 import Storage from './api/storage';
@@ -46,7 +46,7 @@ class Common{
 		// 安装cookie
 		Vue.use(Cookie);
 		// Http服务插件
-		Vue.use(Http, opts.http);
+		Vue.use(HttpInstance, opts.http);
 		// storage插件
 		Vue.use(Storage, opts.storage);
 		// 安装路由

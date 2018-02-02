@@ -35,6 +35,8 @@ import utils from './../utils';
 
 
 class Http {
+	static axios = axios;
+
 	constructor({
 		baseURL = SVR_BASE_URL, 
 		timeout = SVR_TIMEOUT,
