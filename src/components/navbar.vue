@@ -99,8 +99,8 @@
         methods: {
             // 退出
             logout(){
-                const idx = ( location.href.match(/(?<=\w)\/(?=\w)?/) ).index;
-                window.location.href =  location.href.slice(0, idx) + '/logout';
+                const rs =  location.href.match(/(?<=\w)\/(?=\w)?/) ;
+                window.location.href =  location.href.slice(0, rs.index) + '/logout';
             },
             getIndex(...args){
                 return args.join('-');
