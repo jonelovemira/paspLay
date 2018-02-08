@@ -227,16 +227,11 @@ class Http {
 				delete option.transferType;
 			//如果不设置transferType，默认为text/plain,支持 JSON传输	
 			}else{
-				option.data = data;	
+				option.data = {data};
 			}
-			
 		}
-
 		return this.request(option);
 	}
-	
-
-	
 }
 
 Http.axios = axios;
