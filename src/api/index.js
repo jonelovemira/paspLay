@@ -212,8 +212,7 @@ class Http {
 				// 删除辅助字段upload
 				delete option.upload;
 			}else{
-				option.data = data;
-				option.transformRequest = [data => utils.serialize(data)];	
+				option.data = {data};
 			}
 			
 		}
