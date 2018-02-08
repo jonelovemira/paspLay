@@ -11,7 +11,7 @@
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>我的主页</el-dropdown-item>
                     <el-dropdown-item>我的订单</el-dropdown-item>
-                    <el-dropdown-item divided @click="logout">退出</el-dropdown-item>
+                    <el-dropdown-item divided @click.native="logout">退出</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
         </div>

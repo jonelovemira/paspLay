@@ -15,8 +15,11 @@ class Common{
 	}
 	//初始化全局变量
 	initGlobalVariable(){
-		window.common = window.common || {};
-		common.settings = new Utils.CommonMap;
+		if(!window.common){
+			window.common =  {};
+			common.settings = new Utils.CommonMap;	
+		}
+		
 	}
 	get App(){
 		return App;
