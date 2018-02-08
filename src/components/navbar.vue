@@ -11,7 +11,7 @@
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>我的主页</el-dropdown-item>
                     <el-dropdown-item>我的订单</el-dropdown-item>
-                    <el-dropdown-item divided>退出</el-dropdown-item>
+                    <el-dropdown-item divided @click="logout">退出</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
         </div>
@@ -97,6 +97,11 @@
             }
         },
         methods: {
+            // 退出
+            logout(){
+                const rs =  location.href.match(/\w\/(?=\w)?/) ;
+                window.location.href =  location.href.slice(0, rs.index + 1) + '/logout';
+            },
             getIndex(...args){
                 return args.join('-');
             },

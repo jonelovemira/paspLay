@@ -1,5 +1,5 @@
 import dateformat from 'dateformat';
-import {SERVICE_EXCLUDE_FUNNAMES} from './../config';
+import {SVR_EXCLUDE_FUNNAMES} from './../config';
 
 const _maps = {
 		'/': '\\/'
@@ -83,7 +83,7 @@ const generateNamespace = (ctx, str, val) => {
 
 //是否是合格的函数名字
 const isRegularFuncName = funcname => {
-	return !SERVICE_EXCLUDE_FUNNAMES.some( _ => Object.is(funcname, _));
+	return !SVR_EXCLUDE_FUNNAMES.some( _ => Object.is(funcname, _));
 }
 
 // 序列化对象
@@ -98,6 +98,34 @@ const serialize = obj => {
 	return str.replace(/&$/, '');
 }
 
+//自定义Map对象
+class CommonMap{
+	constructor(){
+		this._data = new Map;
+	}
+	set(key, value, defaultValue = ''){
+		this._data.set(key, value == null ? defaultValue : value);
+
+	}
+	get(key, defaultValue = ''){
+		const val = this._data.get(key);
+		return   val == null ?  defaultValue : val;
+	}
+	has(key){
+		return this._data.has(key);
+	}
+	remove(key){
+		if(!key){
+			return this._data.clear();
+		}else{
+			return this.delete(key);
+		}
+	}
+	clear(){
+		return this._data.clear();
+	}
+}
+
 
 export default {
 	isObject,
@@ -110,6 +138,7 @@ export default {
 	generateNamespace,
 	isRegularFuncName,
 	serialize,
+	CommonMap,
 	install(Vue, opts){
 		Vue.prototype._$utils = this;
 	}
