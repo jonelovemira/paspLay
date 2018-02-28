@@ -3,7 +3,7 @@
         <el-header class="header-style">
             <navbar :navs="navs"></navbar>
         </el-header>
-        <el-container direction="horizontal">
+        <el-container direction="horizontal" class="spec-container">
             <el-scrollbar wrap-style="overflow-x:hidden;" class="main-block width-100-percent limit-height">
                 <div class="middle-block">
                     <router-view></router-view>
@@ -38,7 +38,7 @@ export default {
     .middle-block {
         width: 1140px;
         padding: 0;
-        margin: 0 auto 80px;
+        margin: 0 auto;
     }
 
     .header-style {
@@ -70,6 +70,12 @@ export default {
         line-height: 60px;
         box-shadow: 0 1px 3px 0 rgba(0,34,77,.1);
         z-index: 200;
+    }
+
+    .spec-container {
+        position: absolute;
+        width: 100%;
+        height: 100%;
     }
         
 </style>
