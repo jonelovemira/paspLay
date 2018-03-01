@@ -12,11 +12,12 @@
     "prepublishOnly": "npm version patch && git push origin master"
   },
   "dependencies": {
+    "aep-portalweb": "^1.0.1",
+    "axios": "^0.17.1",
+    "dateformat": "^3.0.2",
     "element-ui": "^2.0.7",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1",
-    "dateformat": "^3.0.2",
-    "axios": "^0.17.1"
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

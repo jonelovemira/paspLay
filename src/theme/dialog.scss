@@ -1,0 +1,32 @@
+@import 'variable';
+$dialog-header-height: 40px;
+
+.el-dialog{
+  &__header{
+    position: relative;
+    text-align: center;
+    background-color: $theme-color;
+    height: $dialog-header-height;
+    padding: 0;
+  }
+  &__title{
+    color: #fff;
+    line-height: $dialog-header-height;
+  }
+  &__headerbtn{
+    line-height: 1;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  &__headerbtn
+  &__close{
+    color: #fff;
+  }
+  &__headerbtn:hover &__close,
+  &__headerbtn:focus &__close{
+    color: #fff;
+  }
+  &__footer{
+    text-align: center;
+  }
+}

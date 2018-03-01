@@ -1,0 +1,15 @@
+.el-table{
+  &__header{
+    thead{
+      font-size: 14px;
+      color: #3A3A3A;
+    }
+    tr{
+      background:#E6E6E6;
+    }
+    th{
+      font-weight: normal;
+      background:#E6E6E6;
+    }
+  }
+}

@@ -1,35 +1,28 @@
 <template>
-    <el-container style="height:100%;">
-        <el-header class="header-style">
-            <navbar :navs="navs"></navbar>
-        </el-header>
-        <el-container direction="horizontal" class="spec-container">
-            <el-scrollbar wrap-style="overflow-x:hidden;" class="main-block width-100-percent limit-height">
-                <div class="middle-block">
-                    <router-view></router-view>
-                </div>
-            </el-scrollbar>
-        </el-container>
-    </el-container>
+    <div>
+        <topbar></topbar>
+        <sidebar></sidebar>
+        <container></container>
+    </div>
 </template>
 
 <script>
 
 import Vue from 'vue';
 import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
-import navbar from './components/navbar';
 
-import sidebarContainer from './components/sidebar-container';
+import sidebar from '@/components/sidebar';
+import container from '@/components/container';
+
+import header from 'aep-portalweb/src/base/components/page-header'
 
 Vue.use(ElementUI);
 
-Vue.component('sidebar-container', sidebarContainer);
 
 export default {
     name: 'app',
     props: ['navs'],
-    components:{navbar}
+    components:{topbar: header, sidebar, container}
 }
 </script>
 

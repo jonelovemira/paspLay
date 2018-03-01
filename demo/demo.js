@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Common from '@/main';
-import navs from '@/config/topbar.json';
 // import sidebars from '@/config/sidebar.json';
 
 
@@ -17,11 +16,7 @@ new Vue({
   render: h => {
      const vNodes = [];
      vNodes.push(
-         h(Common.App, {
-           props: {
-             navs
-           }
-         })
+         h(Common.App)
      );    
      return h('div', {}, vNodes)
   },
