@@ -59,11 +59,13 @@ class Common{
 		
 		//配置路由
 		const routes = [];
-		opts.router.keys().map(key => {
-			// 每个router.js的路由配置对象
-			const routeModule = opts.router(key).default;
-			Array.isArray(routeModule) ? routes.push.apply(routes, routeModule): routes.push(routeModule);
-		});
+		if (opts.router) {
+			opts.router.keys().map(key => {
+				// 每个router.js的路由配置对象
+				const routeModule = opts.router(key).default;
+				Array.isArray(routeModule) ? routes.push.apply(routes, routeModule): routes.push(routeModule);
+			});
+		}
 		this._router = new Router({routes});
 
 
