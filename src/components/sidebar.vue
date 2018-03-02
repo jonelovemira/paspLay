@@ -1,8 +1,8 @@
 <template>
   <nav class="sidebar">
     <div class="menu">
-      <el-menu v-if="menu.length" :default-active="current">
-         <el-submenu v-for="item in menu" :key="item.name" :index="item.name">
+      <el-menu v-if="sidebars.length" :default-active="current" :router="true">
+         <el-submenu v-for="item in sidebars" :key="item.name" :index="item.name">
            <template slot="title">
             <i></i>
             <span>{{item.name}}</span>
@@ -20,13 +20,12 @@
 
 <script>
 
-import sidebar from '@/config/sidebar.json';
 
 export default {
   name: 'sidebar',
+  props: ['sidebars'],
   data() {
     return {
-      menu: sidebar,
       current: ''
     }
   }

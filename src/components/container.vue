@@ -27,13 +27,10 @@ export default {
 @import '../theme/variable';
 
 .container {
-  position: absolute;
-  top: $topbar-height;
   left: $sidebar-width;
   right: 0;
   bottom: 0;
   .main-cont {
-    position: absolute;
     left: 0;
     top: 0;
     bottom: 0;

@@ -5,7 +5,7 @@
         "sub": [
             {
                 "name": "基本信息",
-                "route_name": "my_info"
+                "route_name": "order.demo"
             },
             {
                 "name": "安全设置",
@@ -15,6 +15,82 @@
                 "route_name": "my_tenantlist"
             }, {
                 "name": "消息中心",
+                "route_name": "my_message"
+            }
+        ]
+    },{
+        "name": "个人主页1",
+
+        "sub": [
+            {
+                "name": "基本信息1",
+                "route_name": "order.demo"
+            },
+            {
+                "name": "安全设置1",
+                "route_name": "my_safety"
+            }, {
+                "name": "租户列表1",
+                "route_name": "my_tenantlist"
+            }, {
+                "name": "消息中心1",
+                "route_name": "my_message"
+            }
+        ]
+    },{
+        "name": "个人主页2",
+
+        "sub": [
+            {
+                "name": "基本信息2",
+                "route_name": "order.demo"
+            },
+            {
+                "name": "安全设置2",
+                "route_name": "my_safety"
+            }, {
+                "name": "租户列表2",
+                "route_name": "my_tenantlist"
+            }, {
+                "name": "消息中心2",
+                "route_name": "my_message"
+            }
+        ]
+    },{
+        "name": "个人主页3",
+
+        "sub": [
+            {
+                "name": "基本信息3",
+                "route_name": "order.demo"
+            },
+            {
+                "name": "安全设置3",
+                "route_name": "my_safety"
+            }, {
+                "name": "租户列表3",
+                "route_name": "my_tenantlist"
+            }, {
+                "name": "消息中心3",
+                "route_name": "my_message"
+            }
+        ]
+    },{
+        "name": "个人主页4",
+
+        "sub": [
+            {
+                "name": "基本信息4",
+                "route_name": "order.demo"
+            },
+            {
+                "name": "安全设置4",
+                "route_name": "my_safety"
+            }, {
+                "name": "租户列表4",
+                "route_name": "my_tenantlist"
+            }, {
+                "name": "消息中心4",
                 "route_name": "my_message"
             }
         ]
