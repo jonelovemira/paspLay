@@ -2,12 +2,12 @@
   <nav class="sidebar">
     <div class="menu">
       <el-menu v-if="sidebars.length" :default-active="current" :router="true">
-         <el-submenu v-for="item in sidebars" :key="item.name" :index="item.name">
+         <el-submenu v-for="item in sidebars" :key="item.index" :index="item.index">
            <template slot="title">
             <i></i>
             <span>{{item.name}}</span>
           </template>
-           <el-menu-item v-for="$item in item.sub" :key="$item.name" :index="$item.name"
+           <el-menu-item v-for="$item in item.sub" :key="$item.index" :index="$item.index"
             :route="{path: $item.path, name: $item.route_name, params: $item.params}"
            >
             <span slot="title">{{$item.name}}</span>
@@ -24,9 +24,11 @@
 export default {
   name: 'sidebar',
   props: ['sidebars'],
-  data() {
-    return {
-      current: ''
+  computed: {
+    current() {
+      let menuIndex = this.$route.meta.menuIndex;
+      console.log(menuIndex);
+      return menuIndex;
     }
   }
 }

@@ -5,5 +5,8 @@ export default {
   name: 'order',
   path: '/order',
   component: order,
-  children: [child]
+  children: [child],
+  meta: {
+    menuIndex: '4-4'
+  }
 }
