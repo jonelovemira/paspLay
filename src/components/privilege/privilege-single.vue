@@ -11,7 +11,7 @@
 </template>
 
 <script>
-	import utils from '@/utils';
+	import utils from './../../utils';
 	export default {
 		name: 'privilege-single',
 		data(){
@@ -20,7 +20,6 @@
 			}
 		},
 		beforeMount(){
-			console.log('this.cache', this.cache)
 			if(this.cache){
 				this.hasPrivilege();
 			}else{
