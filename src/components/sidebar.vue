@@ -27,8 +27,7 @@ export default {
   computed: {
     current() {
       let menuIndex = this.$route.meta.menuIndex;
-      console.log(menuIndex);
-      return menuIndex;
+      return menuIndex || '';
     }
   }
 }

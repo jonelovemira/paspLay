@@ -36,6 +36,7 @@ export default {
     bottom: 0;
     right: 0;
     overflow: auto;
+    padding-top: $main-cont-padding-top;
     .loading {
       display: flex;
       height: 100%;
