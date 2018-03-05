@@ -1,5 +1,7 @@
 import dateformat from 'dateformat';
 import {SVR_EXCLUDE_FUNNAMES} from './../config';
+import {getUserPrivilege, hasPrivilege} from'./../components/privilege/privilege-current';
+
 
 const _maps = {
 		'/': '\\/'
@@ -128,6 +130,8 @@ class CommonMap{
 
 
 export default {
+	getUserPrivilege,
+	hasPrivilege,
 	isObject,
 	isArray,
 	warn_svr,

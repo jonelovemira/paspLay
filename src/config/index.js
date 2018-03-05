@@ -21,12 +21,17 @@ const STORAGE_TYPE = 'local';
 
 const SERVICE = {
 	services: {
-		file: [{name: 'upload', option: {method: 'post'}}],
-
-		cluster: [{name: 'List', option: {method: 'post'}}],
-		'dc': ['MapList']
-	},
-	gw: ['tenant.get.detail', {name: 'user.tenant.list', option:{ method: 'post', transferType: 'string'} }, 'app.auth.add', 'app.auth.delete']
+		auth: [ 
+				{
+					name: 'CheckMenu',
+					option: {
+						method: 'post'
+					}
+				},
+				,'CheckSingle', 'Current'
+			]
+	}
+	
 	
 }
 

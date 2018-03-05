@@ -51,6 +51,13 @@ class Http {
 			// CORS跨域请求头
 			withCredentials
 		});
+		if(service.services){
+
+		}
+		//把本项目的auth合并到调用者的项目中去
+		service.services = service.services || {};
+		service.services.auth = service.services.auth || [];
+		service.services.auth = service.services.auth.concat(SERVICE.services.auth);
 		this._service = service;
 		this._actions = [];
 

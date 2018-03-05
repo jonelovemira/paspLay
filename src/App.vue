@@ -13,14 +13,18 @@
 
 import Vue from 'vue';
 import ElementUI from 'element-ui';
-
 import sidebarContainer from './components/sidebar-container';
-
 import header from 'aep-portalweb/src/base/components/page-header';
+import privilegeSingle from './components/privilege/privilege-single.vue';
+import privilegeMenu from './components/privilege/privilege-menu.vue';
 
 Vue.component('sidebar-container', sidebarContainer);
 
 Vue.use(ElementUI);
+
+//权限插件
+Vue.component('privilege-single', privilegeSingle);
+Vue.component('privilege-menu', privilegeMenu);
 
 
 export default {
