@@ -28,8 +28,10 @@ export default {
 
 .container {
   left: $sidebar-width;
+ 	top: 0;
   right: 0;
   bottom: 0;
+  position: absolute;
   .main-cont {
     left: 0;
     top: 0;

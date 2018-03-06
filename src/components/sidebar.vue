@@ -61,7 +61,7 @@ nav.sidebar {
         background-color: $sidebar-menu-item-bg;
         &:hover,
         &:focus {
-          background: #27384b;
+         	color: $theme-color;
         }
         &.is-active {
           background: $theme-color;
@@ -84,9 +84,11 @@ nav.sidebar {
         color: $sidebar-menu-item-font-color;
         height: $sidebar-menu-item-height;
         line-height: $sidebar-menu-item-height;
+        font-weight: bold; 
         &:hover,
         &:focus {
-          background: #27384b;
+          background: $sidebar-title-focus-color;
+          color: $theme-color;
         }
       }
     }
